@@ -18,7 +18,7 @@ import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
  *
  */
 public class  DriveArcade extends Command {
-
+    boolean mecanumOn = false;
     public DriveArcade() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -39,7 +39,11 @@ public class  DriveArcade extends Command {
     protected void execute() {
         double x = Robot.oi.joystick1.getX();
         double y = Robot.oi.joystick1.getY();
-        Robot.driveTrain.drive(x, y);
+        
+        mecanumOn = Robot.oi.buttonMecanum.get();
+        System.out.println("mecanumOn = " + mecanumOn);
+//          mecanumOn = false;
+        Robot.driveTrain.drive(x, y, mecanumOn); 
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -49,7 +53,7 @@ public class  DriveArcade extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Robot.driveTrain.drive(0, 0);
+        Robot.driveTrain.drive(0, 0, mecanumOn);
     }
 
     // Called when another command which requires one or more of the same

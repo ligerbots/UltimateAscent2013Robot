@@ -98,14 +98,14 @@ public class RobotMap {
         }
         
         driveTrainRobotDrive41 = new RobotDrive(driveTrainJaguarLeftFront, driveTrainJaguarLeftBack,
-              driveTrainJaguarRightBack, driveTrainJaguarRightFront);
+              driveTrainJaguarRightFront, driveTrainJaguarRightBack);
 	
         driveTrainRobotDrive41.setSafetyEnabled(false);
         driveTrainRobotDrive41.setExpiration(10);
         driveTrainRobotDrive41.setSensitivity(0.5);
         driveTrainRobotDrive41.setMaxOutput(1.0);
-        driveTrainRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
-        driveTrainRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+        driveTrainRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+        driveTrainRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         shooterShooterFrontWheel = new Relay(1, 2);
 	LiveWindow.addActuator("Shooter", "Shooter FrontWheel", shooterShooterFrontWheel);
         
