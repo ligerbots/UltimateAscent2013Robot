@@ -14,7 +14,8 @@ package org.usfirst.frc2877.UltimateAscent2013Robot.subsystems;
 import org.usfirst.frc2877.UltimateAscent2013Robot.RobotMap;
 import org.usfirst.frc2877.UltimateAscent2013Robot.commands.*;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType; import edu.wpi.first.wpilibj.Encoder.PIDSourceParameter;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.Encoder.PIDSourceParameter;
 import edu.wpi.first.wpilibj.can.*;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
