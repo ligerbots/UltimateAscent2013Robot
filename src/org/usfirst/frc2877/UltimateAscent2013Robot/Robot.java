@@ -96,7 +96,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-  
+        Robot.acquisition.refreshValues();
         Scheduler.getInstance().run();
      }
 
