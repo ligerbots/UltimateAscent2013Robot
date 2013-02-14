@@ -66,27 +66,41 @@ public class Acquisition extends Subsystem {
     
     public void refreshValues()
     {
+        // This temp variable is only in scop within this method
+        // As we go through the loop, we'll increment this value and then at
+        // the end, we'll compare it to what we had last time to see if it
+        // changed.
         int tempNumDisks = 0;
+        // Similarly for lowestDisk and highestDisk
+        int tempLowestDisk = 0;
+        int tempHighestDisk = 0;
         for (int i=0; i!=NUMPOSITIONS; i++)
         {
            sensorValues[i] = infraRedSensor[i].getVoltage();
            diskPositionsCandidate[i] = (sensorValues[i] > threshold);
            if (diskPositionsCandidate[i]) {
-               if (i < lowestDisk) {
-                   lowestDisk = i;
+               if (i < tempLowestDisk) {
+                   tempLowestDisk = i;
                }
-               if (i > highestDisk) {
-                   highestDisk = i;
+               if (i > tempHighestDisk) {
+                   tempHighestDisk = i;
                }
                tempNumDisks++;
            }
         } 
+        // Check to see if the value changed.  If it did, update the SmartDashboard
         if (tempNumDisks != numDisks) {
             numDisks = tempNumDisks;
             SmartDashboard.putNumber("Number of Disks Loaded: ", numDisks);
         }
+        if (tempLowestDisk != lowestDisk) {
+            lowestDisk = tempLowestDisk;
             SmartDashboard.putNumber("Level of Lowest Frisbee: ", lowestDisk);
+        }
+        if (tempHighestDisk != highestDisk) {
+            highestDisk = tempHighestDisk;
             SmartDashboard.putNumber("Level of Highest Frisbee: ", highestDisk);
+        }
     }
 }
 
