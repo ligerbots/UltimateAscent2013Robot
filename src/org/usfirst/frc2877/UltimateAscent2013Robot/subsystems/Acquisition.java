@@ -66,6 +66,7 @@ public class Acquisition extends Subsystem {
     
     public void refreshValues()
     {
+        int tempNumDisks = 0;
         for (int i=0; i!=NUMPOSITIONS; i++)
         {
            sensorValues[i] = infraRedSensor[i].getVoltage();
@@ -77,12 +78,15 @@ public class Acquisition extends Subsystem {
                if (i > highestDisk) {
                    highestDisk = i;
                }
-               numDisks++;
+               tempNumDisks++;
            }
         } 
-        SmartDashboard.putNumber("Number of Disks Loaded: ", numDisks);
-        SmartDashboard.putNumber("Level of Lowest Frisbee: ", lowestDisk);
-        SmartDashboard.putNumber("Level of Highest Frisbee: ", highestDisk);
+        if (tempNumDisks != numDisks) {
+            numDisks = tempNumDisks;
+            SmartDashboard.putNumber("Number of Disks Loaded: ", numDisks);
+        }
+            SmartDashboard.putNumber("Level of Lowest Frisbee: ", lowestDisk);
+            SmartDashboard.putNumber("Level of Highest Frisbee: ", highestDisk);
     }
 }
 
