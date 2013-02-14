@@ -37,7 +37,7 @@ public class RobotMap {
     public static CANJaguar shooterShooterAngle;
 //    public static Encoder shooterShooterAngleEncoder;
     public static Relay acquisitionAcquisitionRoller;
-    public static Relay acquisitionAcquisitionScrewlift;
+    public static CANJaguar acquisitionAcquisitionScrewlift;
 //    public static Encoder acquisitionAcquisitionScrewEncoder;
 //    public static Relay climbClimbLeftWinch;
 //    public static Relay climbClimbRightWinch;
@@ -127,15 +127,29 @@ public class RobotMap {
             System.out.println("CAN Timeout Exception on RobotMap ShooterFrontwheel");
         }
         
+        try {
+            shooterShooterAngle = new CANJaguar(8);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+            System.out.println("CAN Timeout Exception on RobotMap ShooterAngle");
+        }
+        
+        try {
+            acquisitionAcquisitionScrewlift = new CANJaguar(9);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+            System.out.println("CAN Timeout Exception on RobotMap AcquisitionScrewlift");
+        }
+        
 //        shooterShooterAngleEncoder = new Encoder(1, 3, 1, 4, false, EncodingType.k4X);
 //	LiveWindow.addSensor("Shooter", "Shooter AngleEncoder", shooterShooterAngleEncoder);
 //        shooterShooterAngleEncoder.setDistancePerPulse(1.0);
 //        shooterShooterAngleEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
 //        shooterShooterAngleEncoder.start();
-        acquisitionAcquisitionScrewlift = new Relay(1, 1);
-        LiveWindow.addActuator("Acquisition", "Acquisition Screwlift", acquisitionAcquisitionScrewlift);
+//        acquisitionAcquisitionScrewlift = new Relay(1, 1);
+//        LiveWindow.addActuator("Acquisition", "Acquisition Screwlift", acquisitionAcquisitionScrewlift);
         
-        acquisitionAcquisitionRoller = new Relay(1, 2);
+        acquisitionAcquisitionRoller = new Relay(1, 1);
 	LiveWindow.addActuator("Acquisition", "Acquisition Roller", acquisitionAcquisitionRoller);	
         
 //        acquisitionAcquisitionScrewEncoder = new Encoder(1, 1, 1, 2, false, EncodingType.k4X);
