@@ -46,6 +46,8 @@ public class Acquisition extends Subsystem {
     // we have two arrays so we can check for anamolies -- disks that disappear
     // or appear where they shouldn't be
     
+    public AcquisitionState acquisitionState = AcquisitionState.SHOOT;
+    
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void Acquisition()
