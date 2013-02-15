@@ -38,6 +38,7 @@ public class RobotMap {
 //    public static Encoder shooterShooterAngleEncoder;
     public static Relay acquisitionAcquisitionRoller;
     public static CANJaguar acquisitionAcquisitionScrewlift;
+    public static DigitalInput rotaryLimitSwitch;
 //    public static Encoder acquisitionAcquisitionScrewEncoder;
 //    public static Relay climbClimbLeftWinch;
 //    public static Relay climbClimbRightWinch;
@@ -140,6 +141,8 @@ public class RobotMap {
             ex.printStackTrace();
             System.out.println("CAN Timeout Exception on RobotMap AcquisitionScrewlift");
         }
+        
+        rotaryLimitSwitch = new DigitalInput(1);
         
 //        shooterShooterAngleEncoder = new Encoder(1, 3, 1, 4, false, EncodingType.k4X);
 //	LiveWindow.addSensor("Shooter", "Shooter AngleEncoder", shooterShooterAngleEncoder);
