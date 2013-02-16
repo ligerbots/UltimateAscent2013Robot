@@ -113,7 +113,7 @@ public class Acquisition extends Subsystem {
         }
     }
 
-    public void acquisitionOverride(double run)
+    public void acquisitionTurnScrews(double run)
     {
             try {
             acquisitionScrewlift.setX(run);

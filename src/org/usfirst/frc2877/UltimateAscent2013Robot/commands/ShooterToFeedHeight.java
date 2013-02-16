@@ -21,6 +21,7 @@ public class ShooterToFeedHeight extends Command {
     // Used to control the direction of the motor
     private int direction = 1;
     private final double FEED_ANGLE_THRESHOLD = 1;
+    private ShooterElevationControl nextCommand;
     
     public ShooterToFeedHeight() {
         // Use requires() here to declare subsystem dependencies
@@ -31,6 +32,7 @@ public class ShooterToFeedHeight extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        nextCommand = new ShooterElevationControl();
         if ( Robot.shooter.currentShooterAngle > ANGLE_FOR_FEEDER ) {
             direction = -1;
         }
@@ -52,7 +54,7 @@ public class ShooterToFeedHeight extends Command {
         // stop the shooter angle motor
         Robot.shooter.runShooterAngle(0);
         // re-enable the ShooterAngleControl command
-        Robot.shooterElevationControl.start();
+        nextCommand.start();
     }
 
     // Called when another command which requires one or more of the same
