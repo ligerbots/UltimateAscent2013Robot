@@ -73,8 +73,6 @@ public class OI {
         joystick1 = new Joystick(1);
         joystick2 = new Joystick(2);        
         
-
-	    
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
 
@@ -87,6 +85,7 @@ public class OI {
         // joystick1 is the Driver's joystick.  This is an Xbox controller
         // Button1 sets us to AcquisitionState PICKUP
         buttonAcquisitionStatePickup = new JoystickButton(joystick1, 1);
+        buttonAcquisitionStatePickup.whenPressed(new SwitchToPickupState());
         // Button4 sets us to AcquisitionState FEED
         buttonAcquisitionStateFeed = new JoystickButton(joystick1, 4);
         // Button9 enables mecanum drive
