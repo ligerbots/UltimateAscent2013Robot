@@ -96,10 +96,10 @@ public class OI {
         buttonShooterShoot = new JoystickButton(joystick2, 1);
         // button2 moves the acquisition screw down one turn
         buttonAcquisitionOverrideDown = new JoystickButton(joystick2, 2);
-        buttonAcquisitionOverrideDown.whenPressed(new AcquisitionOverrideControl());
+        buttonAcquisitionOverrideDown.whenPressed(new AcquisitionOverrideControl(-1));
         // button3 moves the acquisition screw up one turn
         buttonAcquisitionOverrideUp = new JoystickButton(joystick2, 3);
-        buttonAcquisitionOverrideUp.whenPressed(new AcquisitionOverrideControl());
+        buttonAcquisitionOverrideUp.whenPressed(new AcquisitionOverrideControl(1));
         // button6 moves the shooter angle to preset height for feeder station
         buttonShooterToFeedHeight = new JoystickButton(joystick2, 6);
         buttonShooterToFeedHeight.whenPressed(new ShooterToFeedHeight());
