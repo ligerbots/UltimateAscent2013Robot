@@ -88,6 +88,7 @@ public class OI {
         buttonAcquisitionStatePickup.whenPressed(new SwitchToPickupState());
         // Button4 sets us to AcquisitionState FEED
         buttonAcquisitionStateFeed = new JoystickButton(joystick1, 4);
+        buttonAcquisitionStateFeed.whenPressed(new SwitchToFeedState());
         // Button9 enables mecanum drive
         buttonMecanum = new JoystickButton(joystick1,9);
    

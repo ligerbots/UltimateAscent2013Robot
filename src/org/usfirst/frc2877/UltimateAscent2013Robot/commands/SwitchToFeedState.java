@@ -13,17 +13,17 @@ import org.usfirst.frc2877.UltimateAscent2013Robot.commands.*;
  *
  * @author fitzpaj
  */
-public class SwitchToPickupState extends Command {
+public class SwitchToFeedState extends Command {
     
-    public SwitchToPickupState() {
+    public SwitchToFeedState() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(Robot.acquisition);
-    }
+    } 
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.acquisition.acquisitionState = AcquisitionState.PICKUP;
+        Robot.acquisition.acquisitionState = AcquisitionState.FEED;
         
     }
 
