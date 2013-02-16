@@ -1,0 +1,12 @@
+Joystick1
+-Z = shoot mode
+Button4 = feed mode
+Button1 = pickup mode
+x/y = drive arcade
+Button9 = mecanum
+
+Joystick 2
+Button1 = shoot
+Button2 = manual down
+Button3 = Manual up
+getY = up/down
