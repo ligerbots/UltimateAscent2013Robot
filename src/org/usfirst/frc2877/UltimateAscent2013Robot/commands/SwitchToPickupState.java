@@ -23,8 +23,17 @@ public class SwitchToPickupState extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.acquisition.acquisitionState = AcquisitionState.PICKUP;
-        
+        // If there are no disks, then we don't need to do anything
+        if (Robot.acquisition.numDisks < 1)  {
+            end();
+        } else {
+            // Set acquisition state to PICKUP
+            Robot.acquisition.acquisitionState = AcquisitionState.PICKUP;
+            // Get lowest disk position and determine how far to lower it
+            switch (Robot.acquisition.lowestDisk) {
+                case 4: // 
+            }
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run
