@@ -50,56 +50,15 @@ public class DriveTrain extends Subsystem {
         System.out.println("driveTrain.initDefaultCommand called.");
   }
     
-    public void runMotor1 ( double speed ) {
-        System.out.println("driveTrain.runMotor1. About to call jaguarLeftFront.set()");
-        System.out.print ("The value of speed is ");
-        System.out.println(speed);
- 
-        try{
-            jaguarLeftFront.setX(speed);
-        } catch (CANTimeoutException ex){
-            System.out.println("Timeout Exception on jaguarLeftFront.setX in runMotor1");
-        }
-    }
-    public void runMotor2 ( double speed ) {
-        System.out.println("drivetrain.runMotor2. About to call jaguarLeftBack.set()");
-        System.out.print("The value of speed is ");
-        System.out.println(speed); 
-        
-        try{
-            jaguarLeftBack.setX(speed);
-        } catch (CANTimeoutException ex){
-            System.out.println("Timeout Exception on jaguarLeftBack.setX in runMotor2");
-        }
-    }
-    public void runMotor3( double speed ) {
-        System.out.println("driveTrain.runMotor3. About to call jaguarRightBack.set()");
-        System.out.print ("The value of speed is ");
-        System.out.println(speed);
- 
-        try{
-            jaguarRightBack.setX(speed);
-        } catch (CANTimeoutException ex){
-            System.out.println("Timeout Exception on jaguarRightBack.setX in runMotor3");
-        }
-    }
-    public void runMotor4 ( double speed ) {
-        System.out.println("drivetrain.runMotor4. About to call jaguarRightFront.set()");
-        System.out.print("The value of speed is ");
-        System.out.println(speed); 
-        
-        try{
-            jaguarRightFront.setX(speed);
-        } catch (CANTimeoutException ex){
-            System.out.println("Timeout Exception on jaguarRightFront.setX in runMotor4");
-        }
-    }
     public void drive ( double x, double y, boolean mecanumOn ) {
 
-        if (mecanumOn == true) {
-            robotDrive41.mecanumDrive_Cartesian(x, y, 0, 0);
-        } else {
-            robotDrive41.arcadeDrive(x, y);
+        if (robotDrive41!=null)
+        {
+            if (mecanumOn == true) {
+                robotDrive41.mecanumDrive_Cartesian(x, y, 0, 0);
+            } else {
+                robotDrive41.arcadeDrive(x, y);
+            }
         }
     }
 }
