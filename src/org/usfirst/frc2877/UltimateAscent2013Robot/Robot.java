@@ -90,9 +90,11 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.cancel();
         // start the drive command.  This will remain active during teleop
         drive.start();
-        // create and start the shooterElevationControl command
+        // create and start the shooterElevationControl command 
+       
         shooterElevationControl = new ShooterElevationControl();
         shooterElevationControl.start();
+
     }
 
     /**
@@ -103,8 +105,14 @@ public class Robot extends IterativeRobot {
         Robot.acquisition.refreshValues();
         // check the shooter elevation angle
         Robot.shooter.shooterElevationAngle();
+        try {
+            RobotMap.shooterFrontWheel.setX(-0.5);
+            RobotMap.shooterBackWheel.setX(-0.25);
+        } catch (Exception ex) {
+            System.out.println("Shooter motors speed set failed");
+        }
         Scheduler.getInstance().run();
-     }
+       }
 
     /**
      * This function called periodically during test mode

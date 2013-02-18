@@ -29,10 +29,10 @@ public class RobotMap {
     public static CANJaguar driveTrainJaguarLeftBack;
     public static CANJaguar driveTrainJaguarRightBack;
     public static RobotDrive driveTrainRobotDrive41;
-    public static CANJaguar shooterShooterFrontWheel;
-    public static CANJaguar shooterShooterBackWheel;
-    public static CANJaguar shooterShooterAngleControl;
-    public static AnalogChannel shooterShooterAngleSensor;
+    public static CANJaguar shooterFrontWheel;
+    public static CANJaguar shooterBackWheel;
+    public static CANJaguar shooterAngleControl;
+    public static AnalogChannel shooterAngleSensor;
     public static Relay acquisitionAcquisitionRoller;
 
     public static CANJaguar acquisitionAcquisitionScrewlift;
@@ -64,10 +64,10 @@ public class RobotMap {
         driveTrainJaguarLeftBack = initJaguar(3, "Left Back");
         driveTrainJaguarRightBack = initJaguar(4, "Right Back");
         driveTrainJaguarRightFront = initJaguar(5, "Right Front");
-        shooterShooterBackWheel = initJaguar(6, "Shooter Front Wheel");
-        shooterShooterFrontWheel = initJaguar(7, "Shooter Back Wheel");
+        shooterBackWheel = initJaguar(6, "Shooter Back Wheel");
+        shooterFrontWheel = initJaguar(7, "Shooter Front Wheel");
         acquisitionAcquisitionScrewlift = initJaguar(8, "Acquisition screw");
-        shooterShooterAngleControl = initJaguar(9, "Shooter Angle");
+        shooterAngleControl = initJaguar(9, "Shooter Angle");
         
         driveTrainRobotDrive41 = new RobotDrive(driveTrainJaguarLeftFront, driveTrainJaguarLeftBack,
           driveTrainJaguarRightFront, driveTrainJaguarRightBack);
@@ -79,11 +79,8 @@ public class RobotMap {
         driveTrainRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         driveTrainRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
                
-        shooterShooterAngleSensor = new AnalogChannel(1);
-        
-        rotaryLimitSwitch = new DigitalInput(1);
-               
-        acquisitionRotaryLimitSwitch = new DigitalInput(2);
+        shooterAngleSensor = new AnalogChannel(1);
+        acquisitionRotaryLimitSwitch = new DigitalInput(1);
         
 //        shooterShooterAngleEncoder = new Encoder(1, 3, 1, 4, false, EncodingType.k4X);
 //	LiveWindow.addSensor("Shooter", "Shooter AngleEncoder", shooterShooterAngleEncoder);
