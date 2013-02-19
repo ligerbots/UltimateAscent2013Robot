@@ -16,6 +16,8 @@ import org.usfirst.frc2877.UltimateAscent2013Robot.commands.*;
 public class SwitchToFeedState extends Command {
     
     private AcquisitionScrewControl nextCommand;
+    private ShooterToFeedHeight commandAfterThat;
+    private int slotsToMove = 0;
     
     public SwitchToFeedState() {
         // Use requires() here to declare subsystem dependencies
@@ -30,13 +32,7 @@ public class SwitchToFeedState extends Command {
         if (Robot.acquisition.numDisks > 0) {
             // Determine how far to move the lowest disk.
             // The highest disk needs to move to slot 4
-            int slotsToMove = 2 - Robot.acquisition.highestDisk;
-            // invoke the AcquisitionScrewControl command to move the screws
-            // the required number of turns
-            if (slotsToMove != 0) {
-                nextCommand = new AcquisitionScrewControl(slotsToMove);
-                nextCommand.start();
-            }
+            slotsToMove = 2 - Robot.acquisition.highestDisk;
         }
     }
 
@@ -46,11 +42,23 @@ public class SwitchToFeedState extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        // This command only goes through once so this should always rturn true.
         return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        // invoke the AcquisitionScrewControl command to move the screws
+        // the required number of turns
+        if (slotsToMove != 0) {
+            nextCommand = new AcquisitionScrewControl(slotsToMove);
+            nextCommand.start();
+        }
+        // Since AcquisitionScrewControl requires the Acquisition subsystem,
+        // we can also invoke the ShooterToFeedHeight command which requires
+        // the Shooter subsystem.  This should be invoked unconditionally.
+        commandAfterThat = new ShooterToFeedHeight();
+        commandAfterThat.start();
     }
 
     // Called when another command which requires one or more of the same

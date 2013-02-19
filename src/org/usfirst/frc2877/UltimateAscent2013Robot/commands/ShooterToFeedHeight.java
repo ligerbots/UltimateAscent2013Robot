@@ -19,8 +19,12 @@ public class ShooterToFeedHeight extends Command {
     // TODO: Set this to the right value after the robot is built
     private final double ANGLE_FOR_FEEDER = 45;
     // Used to control the direction of the motor
+    // The value of 1 will make the motor go full speed.
+    // If we want to go slower, then set it to a value > 0 and < 1
     private int direction = 1;
     private final double FEED_ANGLE_THRESHOLD = 1;
+    // After we get to the right height, we need to re-enable the
+    // ShooterElevationControl command.
     private ShooterElevationControl nextCommand;
     
     public ShooterToFeedHeight() {
@@ -32,6 +36,7 @@ public class ShooterToFeedHeight extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        // Prepare to execute the next command.
         nextCommand = new ShooterElevationControl();
         if ( Robot.shooter.currentShooterAngle > ANGLE_FOR_FEEDER ) {
             direction = -1;
