@@ -30,11 +30,13 @@ public class SwitchToFeedState extends Command {
         if (Robot.acquisition.numDisks > 0) {
             // Determine how far to move the lowest disk.
             // The highest disk needs to move to slot 4
-            int slotsToMove = 3 - Robot.acquisition.highestDisk;
+            int slotsToMove = 2 - Robot.acquisition.highestDisk;
             // invoke the AcquisitionScrewControl command to move the screws
             // the required number of turns
-            nextCommand = new AcquisitionScrewControl(slotsToMove);
-            nextCommand.start();
+            if (slotsToMove != 0) {
+                nextCommand = new AcquisitionScrewControl(slotsToMove);
+                nextCommand.start();
+            }
         }
     }
 
@@ -44,7 +46,7 @@ public class SwitchToFeedState extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

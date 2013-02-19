@@ -43,9 +43,9 @@ public class Acquisition extends Subsystem {
     public static final double SHOOTLOADSPEED = .5;
     
     // diskPositions is what we think the current disk positions are
-    private static boolean[] diskPositions = new boolean[NUMPOSITIONS];
+    public static boolean[] diskPositions = new boolean[NUMPOSITIONS];
     // diskPositions candidate is where the sensors tell us the disks are now
-    private static boolean[] diskPositionsCandidate = new boolean[NUMPOSITIONS];
+    public static boolean[] diskPositionsCandidate = new boolean[NUMPOSITIONS];
     // we have two arrays so we can check for anamolies -- disks that disappear
     // or appear where they shouldn't be
     

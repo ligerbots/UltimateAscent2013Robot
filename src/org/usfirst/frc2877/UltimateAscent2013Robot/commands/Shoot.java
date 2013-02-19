@@ -13,11 +13,11 @@ import org.usfirst.frc2877.UltimateAscent2013Robot.commands.*;
  *
  * @author fitzpaj
  */
-public class SwitchToShootState extends Command {
+public class Shoot extends Command {
     
     private AcquisitionScrewControl nextCommand;
     
-    public SwitchToShootState() {
+    public Shoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(Robot.acquisition);
@@ -31,8 +31,8 @@ public class SwitchToShootState extends Command {
             // Determine how far to move the lowest disk.
             // The highest disk needs to move to slot 4
             int slotsToMove = 4 - Robot.acquisition.highestDisk;
-            // invoke the AcquisitionScrewControl command to move the screws
-            // the required number of turns
+            // Since no disk can live in slot4, no need to check if 
+            // slotsToMove != 0
             nextCommand = new AcquisitionScrewControl(slotsToMove);
             nextCommand.start();
         }

@@ -52,15 +52,12 @@ public class AcquisitionScrewControl extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         // We need to run a few cycles before we check for the switch or else
-        // it migh stop immediately
-        if (numCycles > MIN_CYCLES_TO_CLEAR) {
-            // The first time we get here, the limit switch will be false
-            // If the switch is true, that mean we've made one revolution.
-            if (Robot.acquisition.rotaryLimitSwitch.get() != m_switchContacted) {
-                m_switchContacted = Robot.acquisition.rotaryLimitSwitch.get();
-                // if the switch is true, that means we just finished a turn
-                if (m_switchContacted) {
-                    // increment the number of completed turns
+        // it migh stop immediately.
+        // If the switch state has changed, then if it is now true that means
+        // we just finished a rotation.
+        if (numCycles > MIN_CYCLES_TO_CLEAR && 
+                Robot.acquisition.rotaryLimitSwitch.get() != m_switchContacted &&
+                m_switchContacted) {
                     m_turns++;
                     // if we have completed the requested number of turns,
                     // we can go straight to end.
@@ -72,18 +69,9 @@ public class AcquisitionScrewControl extends Command {
                     // the current turn, so keep going.
                     Robot.acquisition.acquisitionTurnScrews(run);
                 }
-            } else {
-                // The state of the switch has not changed.
-                // If it was false, then we haven't finished a turn.
-                // If it was true, we're going through one turn, but we have
-                // more turns to do, so keep going.
-                Robot.acquisition.acquisitionTurnScrews(run);
-            }
-        } else {
-            // since we haven't gone far enough, all we have to do is 
-            // keep turning the screw.
-            Robot.acquisition.acquisitionTurnScrews(run);
-        }
+        // Save the current state of the switch to check against next iteration
+        m_switchContacted = Robot.acquisition.rotaryLimitSwitch.get();
+        // increment the number of cycles
         numCycles++;
     }
 
@@ -92,7 +80,7 @@ public class AcquisitionScrewControl extends Command {
         // It si finished it we have completed the right number of turns.
         // So the switch must be contacted and m_turns must be equal to the
         // requested number. I made it >= just in case.
-       return m_switchContacted && (m_turns >= m_requestedTurns);
+       return (m_turns >= m_requestedTurns);
     }
 
     // Called once after isFinished returns true

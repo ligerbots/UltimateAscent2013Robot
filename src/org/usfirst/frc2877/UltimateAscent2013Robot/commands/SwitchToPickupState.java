@@ -34,8 +34,10 @@ public class SwitchToPickupState extends Command {
             int slotsToMove = 1 - Robot.acquisition.lowestDisk;
             // invoke the AcquisitionScrewControl command to move the screws
             // the required number of turns
+            if (slotsToMove != 0) {
             nextCommand = new AcquisitionScrewControl(slotsToMove);
             nextCommand.start();
+            }
         }
     }
 
