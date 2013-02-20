@@ -18,7 +18,7 @@ public class AcquisitionScrewControl extends Command {
     // keep track of how many turns
     private int m_turns;
     // keep track of how many iterations we've done
-    private int numCycles = 0;
+    private int m_numCycles = 0;
     // This constant is used to define how many cycles we need to go to make
     // sure that the cam has cleared the limit switch
     private final int MIN_CYCLES_TO_CLEAR = 20;
@@ -46,17 +46,25 @@ public class AcquisitionScrewControl extends Command {
         if (m_requestedTurns < 0) {
             run = -1 * run;
         }
-        System.out.println("Initialize AcquisitionOverride");
+        System.out.println("Initialize AcquisitionOverride " + m_requestedTurns);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        int m_count = 10;
+        boolean limit = Robot.acquisition.rotaryLimitSwitch.get();
+        
+        if (--m_count==0)
+        {
+            m_count = 10;
+            Robot.debugOut("Rotary Limit Switch: ", limit ? "true" : "false" );
+        }
         // We need to run a few cycles before we check for the switch or else
         // it migh stop immediately.
         // If the switch state has changed, then if it is now true that means
         // we just finished a rotation.
-        if (numCycles > MIN_CYCLES_TO_CLEAR && 
-                Robot.acquisition.rotaryLimitSwitch.get() != m_switchContacted &&
+        if (m_numCycles > MIN_CYCLES_TO_CLEAR && 
+                limit != m_switchContacted &&
                 m_switchContacted) {
                     m_turns++;
                     // if we have completed the requested number of turns,
@@ -70,9 +78,9 @@ public class AcquisitionScrewControl extends Command {
                     Robot.acquisition.acquisitionTurnScrews(run);
                 }
         // Save the current state of the switch to check against next iteration
-        m_switchContacted = Robot.acquisition.rotaryLimitSwitch.get();
+        m_switchContacted = limit;
         // increment the number of cycles
-        numCycles++;
+        m_numCycles++;
     }
 
     // Make this return true when this Command no longer needs to run execute()

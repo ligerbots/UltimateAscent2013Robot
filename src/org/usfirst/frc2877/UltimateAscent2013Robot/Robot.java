@@ -40,6 +40,9 @@ public class Robot extends IterativeRobot {
     private Drive drive;
     public ShooterElevationControl shooterElevationControl;
     public AcquisitionScrewControl acquisitionScrewControl;
+    int m_count=10;
+    int m_total_ticks = 0;
+    public static boolean m_shooter_enable = false;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -111,13 +114,26 @@ public class Robot extends IterativeRobot {
         Robot.acquisition.refreshValues();
         // check the shooter elevation angle
         Robot.shooter.shooterElevationAngle();
+       
         try {
-            RobotMap.shooterFrontWheel.setX(-0.5);
-            RobotMap.shooterBackWheel.setX(-0.25);
+            if (m_shooter_enable)
+            {
+                RobotMap.shooterFrontWheel.setX(-1.0);
+                RobotMap.shooterBackWheel.setX(-0.5);
+            }
         } catch (Exception ex) {
             System.out.println("Shooter motors speed set failed");
         }
+        m_total_ticks++;
         Scheduler.getInstance().run();
+        if (--m_count==0)
+        {
+            m_count = 10;
+            SmartDashboard.putNumber("Ticks", m_total_ticks);
+            Robot.debugOut("Shooter enabled: ", m_shooter_enable ? "true" : "false");
+        }
+            
+        
        }
 
     /**
@@ -135,7 +151,7 @@ public class Robot extends IterativeRobot {
 
     public static void debugOutNumber(String label, double number)
     {
-        System.out.println(label + " " + number);
+        //System.out.println(label + " " + number);
         SmartDashboard.putNumber(label, number);
     }
 }

@@ -33,6 +33,7 @@ public class RobotMap {
     public static CANJaguar shooterBackWheel;
     public static CANJaguar shooterAngleControl;
     public static AnalogChannel shooterAngleSensor;
+    public static AnalogChannel potTestSensor;
     public static Relay acquisitionAcquisitionRoller;
 
     public static CANJaguar acquisitionAcquisitionScrewlift;
@@ -60,14 +61,15 @@ public class RobotMap {
     
     public static void init() {
         
+        Robot.debugOutNumber("Test", 1);
         driveTrainJaguarLeftFront = initJaguar(2, "Left Front");
         driveTrainJaguarLeftBack = initJaguar(3, "Left Back");
-        driveTrainJaguarRightBack = initJaguar(4, "Right Back");
+        driveTrainJaguarRightBack = initJaguar(9, "Right Back");
         driveTrainJaguarRightFront = initJaguar(5, "Right Front");
         shooterBackWheel = initJaguar(6, "Shooter Back Wheel");
         shooterFrontWheel = initJaguar(7, "Shooter Front Wheel");
         acquisitionAcquisitionScrewlift = initJaguar(8, "Acquisition screw");
-        shooterAngleControl = initJaguar(9, "Shooter Angle");
+        shooterAngleControl = initJaguar(4, "Shooter Tilt");
         
         driveTrainRobotDrive41 = new RobotDrive(driveTrainJaguarLeftFront, driveTrainJaguarLeftBack,
           driveTrainJaguarRightFront, driveTrainJaguarRightBack);
@@ -78,8 +80,12 @@ public class RobotMap {
         driveTrainRobotDrive41.setMaxOutput(1.0);
         driveTrainRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         driveTrainRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+        
+        acquisitionAcquisitionScrewlift.setSafetyEnabled(false);
+        //acquisitionAcquisitionScrewlift.setExpiration(10);
                
-        shooterAngleSensor = new AnalogChannel(1);
+        shooterAngleSensor = new AnalogChannel(5);
+        potTestSensor = new AnalogChannel(6);
         acquisitionRotaryLimitSwitch = new DigitalInput(1);
         
 //        shooterShooterAngleEncoder = new Encoder(1, 3, 1, 4, false, EncodingType.k4X);

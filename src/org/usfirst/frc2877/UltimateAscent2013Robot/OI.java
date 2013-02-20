@@ -62,6 +62,7 @@ public class OI {
     public JoystickButton buttonAcquisitionStatePickup;
     public JoystickButton buttonAcquisitionStateFeed;
     public JoystickButton buttonMecanum;
+    public JoystickButton buttonShooterEnable;
     public JoystickButton buttonShooterShoot;
     public JoystickButton buttonAcquisitionOverrideDown;
     public JoystickButton buttonAcquisitionOverrideUp;
@@ -91,6 +92,9 @@ public class OI {
         buttonAcquisitionStateFeed.whenPressed(new SwitchToFeedState());
         // Button9 enables mecanum drive
         buttonMecanum = new JoystickButton(joystick1,9);
+        
+        buttonShooterEnable = new JoystickButton(joystick1, 6);
+        buttonShooterEnable.whenPressed(new ShooterEnable());
    
         // joystick2 is the shooter's joystick.  This is an arcade joystick
         // button1 is the shoot button
