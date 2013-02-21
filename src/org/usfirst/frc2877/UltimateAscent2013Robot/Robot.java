@@ -115,15 +115,6 @@ public class Robot extends IterativeRobot {
         // check the shooter elevation angle
         Robot.shooter.shooterElevationAngle();
        
-        try {
-            if (m_shooter_enable)
-            {
-                RobotMap.shooterFrontWheel.setX(-1.0);
-                RobotMap.shooterBackWheel.setX(-0.5);
-            }
-        } catch (Exception ex) {
-            System.out.println("Shooter motors speed set failed");
-        }
         m_total_ticks++;
         Scheduler.getInstance().run();
         if (--m_count==0)
