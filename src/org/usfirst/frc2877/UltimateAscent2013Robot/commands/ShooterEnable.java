@@ -15,7 +15,7 @@ import java.lang.Math;
  * @author fitzpaj
  */
 public class ShooterEnable extends Command {
-   
+    int m_last_tick;
     public ShooterEnable() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -25,12 +25,13 @@ public class ShooterEnable extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-       
+       m_last_tick = Robot.m_total_ticks;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-         Robot.m_shooter_enable = !Robot.m_shooter_enable;
+         
+         Robot.m_shooter_enable = false;
     
     }
 

@@ -6,7 +6,7 @@ package org.usfirst.frc2877.UltimateAscent2013Robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
-
+import org.usfirst.frc2877.UltimateAscent2013Robot.RobotMap;
 /**
  *
  * @author Administrator
@@ -29,6 +29,7 @@ public class AcquisitionScrewControl extends Command {
     // The default speed for the screws
     double run = Robot.acquisition.ACQUISITIONSPEED;
     boolean limitSwitchTriggered;
+    int m_count = 10;
     public AcquisitionScrewControl(int turns) {
         setInterruptible(false);
         m_requestedTurns = turns;
@@ -51,9 +52,8 @@ public class AcquisitionScrewControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        int m_count = 10;
-        boolean limit = Robot.acquisition.rotaryLimitSwitch.get();
-        
+        boolean limit = Robot.getRotaryLimitSwitch();
+       
         if (--m_count==0)
         {
             m_count = 10;
@@ -82,6 +82,7 @@ public class AcquisitionScrewControl extends Command {
         // increment the number of cycles
         m_numCycles++;
     }
+  
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

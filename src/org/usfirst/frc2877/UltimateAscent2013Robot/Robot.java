@@ -40,8 +40,8 @@ public class Robot extends IterativeRobot {
     private Drive drive;
     public ShooterElevationControl shooterElevationControl;
     public AcquisitionScrewControl acquisitionScrewControl;
-    int m_count=10;
-    int m_total_ticks = 0;
+    public static int m_count=10;
+    public static int m_total_ticks = 0;
     public static boolean m_shooter_enable = false;
     /**
      * This function is run when the robot is first started up and should be
@@ -129,10 +129,13 @@ public class Robot extends IterativeRobot {
         if (--m_count==0)
         {
             m_count = 10;
-            SmartDashboard.putNumber("Ticks", m_total_ticks);
-            Robot.debugOut("Shooter enabled: ", m_shooter_enable ? "true" : "false");
-        }
-            
+            //SmartDashboard.putNumber("Ticks", m_total_ticks);
+            //Robot.debugOut("Shooter enabled: ", m_shooter_enable ? "true" : "false");
+            Robot.debugOutNumber("Pot Avg Voltage ", RobotMap.shooterAngleSensor.getAverageVoltage());
+            //Robot.debugOut("Limit switch", RobotMap.acquisitionRotaryLimitSwitch.get() ? "true" : "false");
+           // Robot.debugOutNumber("analog switch Test1 ", RobotMap.analogSwitchTest1.getAverageVoltage());
+           // Robot.debugOutNumber("analog switch Test2 ", RobotMap.analogSwitchTest2.getAverageVoltage());
+         }
         
        }
 
@@ -143,15 +146,32 @@ public class Robot extends IterativeRobot {
         LiveWindow.run();
     }
     
+    public static boolean getRotaryLimitSwitch()
+    {
+        boolean limHit = (RobotMap.rotaryLimitSwitchAnalog.getVoltage() < 4.0);
+        if (RobotMap.acquisitionRotaryLimitSwitch.get() == true) {
+            limHit = true;
+        }
+        debugOutNumber("Rotary limit analog", RobotMap.rotaryLimitSwitchAnalog.getVoltage());
+        debugOutBoolean("Rotory limit switch", limHit);
+        return limHit;
+    }
+    
     public static void debugOut(String label, String value)
     {
         System.out.println(label + " " + value);
         SmartDashboard.putString(label, value);
     }
+    
+    public static void debugOutBoolean(String label, boolean value)
+    {
+        System.out.println(label + " " + (value ? "true" : "false"));
+        SmartDashboard.putBoolean(label, value);
+    }
 
     public static void debugOutNumber(String label, double number)
     {
-        //System.out.println(label + " " + number);
+        System.out.println(label + " " + number);
         SmartDashboard.putNumber(label, number);
     }
 }
