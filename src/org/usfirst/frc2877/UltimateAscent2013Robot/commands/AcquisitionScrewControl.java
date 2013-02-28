@@ -47,6 +47,10 @@ public class AcquisitionScrewControl extends Command {
         if (m_requestedTurns < 0) {
             run = -1 * run;
         }
+        // Don't depend on these being zero from the declaration init
+        // It's not clear if we get a new copy of this class each time
+        m_numCycles = 0;
+        m_turns = 0;
         System.out.println("Initialize AcquisitionOverride " + m_requestedTurns);
     }
 
@@ -65,18 +69,19 @@ public class AcquisitionScrewControl extends Command {
         // we just finished a rotation.
         if (m_numCycles > MIN_CYCLES_TO_CLEAR && 
                 limit != m_switchContacted &&
-                m_switchContacted) {
-                    m_turns++;
-                    // if we have completed the requested number of turns,
-                    // we can go straight to end.
-                    if (m_turns == m_requestedTurns) {
-                        end();
-                    }
-                } else {
-                    // Since the switch is not contacted, we have not completed
-                    // the current turn, so keep going.
-                    Robot.acquisition.acquisitionTurnScrews(run);
-                }
+                m_switchContacted)
+        {
+            m_turns++;
+            // if we have completed the requested number of turns,
+            // we can go straight to end.
+            if (m_turns == m_requestedTurns)
+            {
+                end();
+            }
+        }
+        // Since the switch is not contacted, we have not completed
+        // the current turn, so keep going.
+        Robot.acquisition.acquisitionTurnScrews(run);
         // Save the current state of the switch to check against next iteration
         m_switchContacted = limit;
         // increment the number of cycles

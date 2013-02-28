@@ -116,9 +116,9 @@ public class Acquisition extends Subsystem {
     public void acquisitionTurnScrews(double run)
     {
             try {
-            acquisitionScrewlift.setX(run);
+                acquisitionScrewlift.setX(run);
             } catch (CANTimeoutException ex) {
-            System.out.println("Timeout Exception on acquisitionScrewlift.setX in acquisitionOverride");
+                System.out.println("Timeout Exception on acquisitionScrewlift.setX in acquisitionOverride");
             }
     }
 }
