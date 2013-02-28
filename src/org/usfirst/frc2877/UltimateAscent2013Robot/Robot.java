@@ -115,15 +115,6 @@ public class Robot extends IterativeRobot {
         // check the shooter elevation angle
         Robot.shooter.shooterElevationAngle();
        
-        try {
-            if (m_shooter_enable)
-            {
-                RobotMap.shooterFrontWheel.setX(-1.0);
-                RobotMap.shooterBackWheel.setX(-0.5);
-            }
-        } catch (Exception ex) {
-            System.out.println("Shooter motors speed set failed");
-        }
         m_total_ticks++;
         Scheduler.getInstance().run();
         if (--m_count==0)
@@ -132,6 +123,9 @@ public class Robot extends IterativeRobot {
             //SmartDashboard.putNumber("Ticks", m_total_ticks);
             //Robot.debugOut("Shooter enabled: ", m_shooter_enable ? "true" : "false");
             Robot.debugOutNumber("Pot Avg Voltage ", RobotMap.shooterAngleSensor.getAverageVoltage());
+            Robot.debugOutBoolean("Rotary limit switch", RobotMap.acquisitionRotaryLimitSwitch.get());
+            Robot.debugOutBoolean("Bottom acquisition switch", RobotMap.bottonAcquisitionSwitch.get());
+            Robot.debugOutBoolean("Top Acquisition switch", RobotMap.topAcquisitionSwitch.get());
             //Robot.debugOut("Limit switch", RobotMap.acquisitionRotaryLimitSwitch.get() ? "true" : "false");
            // Robot.debugOutNumber("analog switch Test1 ", RobotMap.analogSwitchTest1.getAverageVoltage());
            // Robot.debugOutNumber("analog switch Test2 ", RobotMap.analogSwitchTest2.getAverageVoltage());

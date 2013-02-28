@@ -4,65 +4,43 @@
  */
 package org.usfirst.frc2877.UltimateAscent2013Robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
 import org.usfirst.frc2877.UltimateAscent2013Robot.subsystems.AcquisitionState;
-import org.usfirst.frc2877.UltimateAscent2013Robot.commands.*;
 
 /**
  *
  * @author fitzpaj
  */
-public class SwitchToFeedState extends Command {
+public class SwitchToFeedState extends CommandGroup {
     
-    private AcquisitionScrewControl nextCommand;
-    private ShooterToFeedHeight commandAfterThat;
-    private int slotsToMove = 0;
+    private int m_slotsToMove = 0;
     
     public SwitchToFeedState() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(Robot.acquisition);
-    } 
-
-    // Called just before this Command runs the first time
-    protected void initialize() {
+        // requires(Robot.acquisition);
+        // I commented out the above call to requires() when I changed this
+        // to a CommandGroup.  Each individual command will have its own
+        // call to requires()
+        // The examples show the addSequential() and addParallel() calls
+        // done in the constructor so we'll do it that way too.
+        
+        // First we should set the acquisitionState
         Robot.acquisition.acquisitionState = AcquisitionState.FEED;
+
+        // Next we have to compute how many m_slotsToMove to pass in to
+        // the AcquisitionScrewControl command
         // If there are no disks, then we don't need to do anything
         if (Robot.acquisition.numDisks > 0) {
             // Determine how far to move the lowest disk.
             // The highest disk needs to move to slot 4
-            slotsToMove = 2 - Robot.acquisition.highestDisk;
+            m_slotsToMove = 2 - Robot.acquisition.highestDisk;
         }
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    }
-
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        // This command only goes through once so this should always rturn true.
-        return true;
-    }
-
-    // Called once after isFinished returns true
-    protected void end() {
-        // invoke the AcquisitionScrewControl command to move the screws
-        // the required number of turns
-        if (slotsToMove != 0) {
-            nextCommand = new AcquisitionScrewControl(slotsToMove);
-            nextCommand.start();
-        }
-        // Since AcquisitionScrewControl requires the Acquisition subsystem,
-        // we can also invoke the ShooterToFeedHeight command which requires
-        // the Shooter subsystem.  This should be invoked unconditionally.
-        commandAfterThat = new ShooterToFeedHeight();
-        commandAfterThat.start();
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+        
+        // Now add the commands
+        addSequential(new AcquisitionScrewControl(m_slotsToMove));
+        // To save time, raise the shooter to the feeder height in parallel
+        addParallel(new ShooterToFeedHeight());
+    } 
 }

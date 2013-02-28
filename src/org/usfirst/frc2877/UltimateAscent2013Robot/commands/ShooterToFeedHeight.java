@@ -6,9 +6,6 @@ package org.usfirst.frc2877.UltimateAscent2013Robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
-import org.usfirst.frc2877.UltimateAscent2013Robot.commands.*;
-
-import java.lang.Math;
 
 /**
  *
@@ -23,21 +20,15 @@ public class ShooterToFeedHeight extends Command {
     // If we want to go slower, then set it to a value > 0 and < 1
     private int direction = 1;
     private final double FEED_ANGLE_THRESHOLD = 1;
-    // After we get to the right height, we need to re-enable the
-    // ShooterElevationControl command.
-    private ShooterElevationControl nextCommand;
     
     public ShooterToFeedHeight() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(Robot.shooter);
-
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        // Prepare to execute the next command.
-        nextCommand = new ShooterElevationControl();
         if ( Robot.shooter.currentShooterAngle > ANGLE_FOR_FEEDER ) {
             direction = -1;
         }
@@ -58,8 +49,6 @@ public class ShooterToFeedHeight extends Command {
     protected void end() {
         // stop the shooter angle motor
         Robot.shooter.runShooterAngle(0);
-        // re-enable the ShooterAngleControl command
-        nextCommand.start();
     }
 
     // Called when another command which requires one or more of the same
