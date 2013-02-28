@@ -25,16 +25,20 @@ public class ShooterEnable extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        double frontWheel = 0.0, backWheel = 0.0;
         Robot.m_shooter_enable = !Robot.m_shooter_enable;
+        Robot.debugOutBoolean("Shooter enable", Robot.m_shooter_enable);
+        
         if (Robot.m_shooter_enable) {
-            try {
-                RobotMap.shooterFrontWheel.setX(-1.0);
-                RobotMap.shooterBackWheel.setX(-0.5);
-            } catch (Exception ex) {
-                System.out.println("Shooter motors speed set failed");
-            }
+            frontWheel = -1.0;
+            backWheel = -0.5;
         }
-
+        try {
+            RobotMap.shooterFrontWheel.setX(frontWheel);
+            RobotMap.shooterBackWheel.setX(backWheel);
+        } catch (Exception ex) {
+            System.out.println("Shooter motors speed set failed");
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run

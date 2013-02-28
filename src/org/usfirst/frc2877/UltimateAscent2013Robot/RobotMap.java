@@ -37,7 +37,6 @@ public class RobotMap {
 
     public static CANJaguar acquisitionAcquisitionScrewlift;
     public static DigitalInput rotaryLimitSwitch;
-    public static AnalogChannel rotaryLimitSwitchAnalog;
     public static AnalogChannel analogSwitchTest1;
     public static AnalogChannel analogSwitchTest2;
     public static DigitalInput acquisitionRotaryLimitSwitch;
@@ -65,8 +64,6 @@ public class RobotMap {
     }
     
     public static void init() {
-        
-        Robot.debugOutNumber("Test", 1);
         driveTrainJaguarLeftFront = initJaguar(2, "Left Front");
         driveTrainJaguarLeftBack = initJaguar(3, "Left Back");
         driveTrainJaguarRightBack = initJaguar(9, "Right Back");
@@ -90,7 +87,6 @@ public class RobotMap {
                
         shooterAngleSensor = new AnalogChannel(5);
         //analogSwitchTest1 = new AnalogChannel(8);
-        rotaryLimitSwitchAnalog = new AnalogChannel(4);
         acquisitionRotaryLimitSwitch = new DigitalInput(3);
         bottonAcquisitionSwitch = new DigitalInput(1);
         topAcquisitionSwitch = new DigitalInput(2);

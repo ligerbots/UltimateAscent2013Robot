@@ -12,6 +12,7 @@
 package org.usfirst.frc2877.UltimateAscent2013Robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -88,6 +89,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        updateDashboard();
      }
 
     public void teleopInit() {
@@ -117,19 +119,8 @@ public class Robot extends IterativeRobot {
        
         m_total_ticks++;
         Scheduler.getInstance().run();
-        if (--m_count==0)
-        {
-            m_count = 10;
-            //SmartDashboard.putNumber("Ticks", m_total_ticks);
-            //Robot.debugOut("Shooter enabled: ", m_shooter_enable ? "true" : "false");
-            Robot.debugOutNumber("Pot Avg Voltage ", RobotMap.shooterAngleSensor.getAverageVoltage());
-            Robot.debugOutBoolean("Rotary limit switch", RobotMap.acquisitionRotaryLimitSwitch.get());
-            Robot.debugOutBoolean("Bottom acquisition switch", RobotMap.bottonAcquisitionSwitch.get());
-            Robot.debugOutBoolean("Top Acquisition switch", RobotMap.topAcquisitionSwitch.get());
-            //Robot.debugOut("Limit switch", RobotMap.acquisitionRotaryLimitSwitch.get() ? "true" : "false");
-           // Robot.debugOutNumber("analog switch Test1 ", RobotMap.analogSwitchTest1.getAverageVoltage());
-           // Robot.debugOutNumber("analog switch Test2 ", RobotMap.analogSwitchTest2.getAverageVoltage());
-         }
+        updateDashboard();
+       
         
        }
 
@@ -140,15 +131,33 @@ public class Robot extends IterativeRobot {
         LiveWindow.run();
     }
     
-    public static boolean getRotaryLimitSwitch()
+    public static void updateDashboard()
     {
-        boolean limHit = (RobotMap.rotaryLimitSwitchAnalog.getVoltage() < 4.0);
-        if (RobotMap.acquisitionRotaryLimitSwitch.get() == true) {
-            limHit = true;
+        if (--m_count==0)
+        {
+            m_count = 10;
+            SmartDashboard.putNumber("Ticks", m_total_ticks);
+            //Robot.debugOutNumber("Pot Avg Voltage ", RobotMap.shooterAngleSensor.getAverageVoltage());
+            //Robot.debugOutBoolean("Rotary limit switch", RobotMap.acquisitionRotaryLimitSwitch.get());
+            //Robot.debugOutBoolean("Bottom acquisition switch", RobotMap.bottonAcquisitionSwitch.get());
+            //Robot.debugOutBoolean("Top Acquisition switch", RobotMap.topAcquisitionSwitch.get());
+            try {
+              SmartDashboard.putNumber("Left Front", RobotMap.driveTrainJaguarLeftFront.getOutputVoltage());
+              SmartDashboard.putNumber("Left Back", RobotMap.driveTrainJaguarLeftBack.getOutputVoltage());
+              SmartDashboard.putNumber("Right Front", RobotMap.driveTrainJaguarRightFront.getOutputVoltage());
+              SmartDashboard.putNumber("Right Back", RobotMap.driveTrainJaguarRightBack.getOutputVoltage());
+              
+              SmartDashboard.putNumber("Left Front Current", RobotMap.driveTrainJaguarLeftFront.getOutputCurrent());
+              SmartDashboard.putNumber("Left Back Current", RobotMap.driveTrainJaguarLeftBack.getOutputCurrent());
+              SmartDashboard.putNumber("Right Front Current", RobotMap.driveTrainJaguarRightFront.getOutputCurrent());
+              SmartDashboard.putNumber("Right Back Current", RobotMap.driveTrainJaguarRightBack.getOutputCurrent());
+ 
+            }
+            catch (CANTimeoutException ex) {
+                System.out.println("CAN Timeout Exception on a drive motor." );
+            }
         }
-        debugOutNumber("Rotary limit analog", RobotMap.rotaryLimitSwitchAnalog.getVoltage());
-        debugOutBoolean("Rotory limit switch", limHit);
-        return limHit;
+        
     }
     
     public static void debugOut(String label, String value)

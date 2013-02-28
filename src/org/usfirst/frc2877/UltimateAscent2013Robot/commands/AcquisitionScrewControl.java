@@ -56,32 +56,38 @@ public class AcquisitionScrewControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        boolean limit = Robot.getRotaryLimitSwitch();
+        boolean limit = RobotMap.acquisitionRotaryLimitSwitch.get();
        
         if (--m_count==0)
         {
             m_count = 10;
-            Robot.debugOut("Rotary Limit Switch: ", limit ? "true" : "false" );
+            System.out.println("m_numCycles = " + m_numCycles + " m_turns = " + m_turns);
         }
         // We need to run a few cycles before we check for the switch or else
         // it migh stop immediately.
         // If the switch state has changed, then if it is now true that means
         // we just finished a rotation.
-        if (m_numCycles > MIN_CYCLES_TO_CLEAR && 
-                limit != m_switchContacted &&
-                m_switchContacted)
+        if (limit != m_switchContacted)
         {
-            m_turns++;
-            // if we have completed the requested number of turns,
-            // we can go straight to end.
-            if (m_turns == m_requestedTurns)
+            System.out.println("**** Limit switch contacted. ****");
+            if (m_numCycles > MIN_CYCLES_TO_CLEAR && m_switchContacted)
             {
-                end();
+                System.out.println("Cleared " + MIN_CYCLES_TO_CLEAR + " cycles");
+                m_turns++;
+                // if we have completed the requested number of turns,
+                // we can go straight to end.
+                if (m_turns == m_requestedTurns)
+                {
+                    System.out.println("End screw turns");
+                    end();
+                }
+            System.out.println("Turn " + m_turns + " of " + m_requestedTurns);
             }
         }
         // Since the switch is not contacted, we have not completed
         // the current turn, so keep going.
         Robot.acquisition.acquisitionTurnScrews(run);
+
         // Save the current state of the switch to check against next iteration
         m_switchContacted = limit;
         // increment the number of cycles
