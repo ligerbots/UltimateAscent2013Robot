@@ -41,10 +41,8 @@ public class Robot extends IterativeRobot {
     private Drive drive;
     public ShooterElevationControl shooterElevationControl;
     public AcquisitionScrewControl acquisitionScrewControl;
-    public static int m_count=10;
     public static int m_total_ticks = 0;
     public static boolean m_shooter_enable = false;
-    private double shooterAngle;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -66,6 +64,7 @@ public class Robot extends IterativeRobot {
         oi = new OI();
 	
         // We need to initialize the disk positions
+        // This is our presumed automous setup
         Acquisition.diskPositions[3] = true;
         Acquisition.diskPositions[2] = true;
         Acquisition.diskPositions[1] = true;
@@ -122,10 +121,25 @@ public class Robot extends IterativeRobot {
     
     private void commonPeriodic() {
         m_total_ticks++;
-        // Check to see where the disks are
-        Robot.acquisition.refreshValues();
+        AcquisitionScrewControl x;  // to shut Netbeans up
         // check the shooter elevation angle
-        Robot.shooter.shooterElevationAngle();
+        shooter.shooterElevationAngle();
+        
+        // Check our acquisition sensors
+        if (acquisition.refreshValues()) {
+            // There was a change
+            switch (acquisition.screwState.value)
+            {
+                case ScrewState.LIFTING_VALUE:
+                    x = new AcquisitionScrewControl(1);
+                    break;
+                    
+                case ScrewState.LOWERING_VALUE:
+                    x = new AcquisitionScrewControl(-1);
+                    break;
+            }
+            
+        }
     }
 
     /**
@@ -135,11 +149,15 @@ public class Robot extends IterativeRobot {
         LiveWindow.run();
     }
     
+    // update frequency in times per second
+    public static final int FREQUENCY = 10;
+    public static final int TICKS_PER_SECOND = 50;
+    public static int m_count = FREQUENCY/TICKS_PER_SECOND;
     public static void updateDashboard()
     {
         if (--m_count==0)
         {
-            m_count = 10;
+            m_count = FREQUENCY/TICKS_PER_SECOND;
             SmartDashboard.putNumber("Ticks", m_total_ticks);
             //Robot.debugOutNumber("Pot Avg Voltage ", RobotMap.shooterAngleSensor.getAverageVoltage());
             //Robot.debugOutBoolean("Rotary limit switch", RobotMap.acquisitionRotaryLimitSwitch.get());
@@ -158,7 +176,11 @@ public class Robot extends IterativeRobot {
               
               SmartDashboard.putNumber("Shooter angle", Robot.shooter.currentShooterAngle);
               SmartDashboard.putNumber("Shooter angle volts", Robot.shooter.shooterElevationVoltage);
-
+              
+              SmartDashboard.putBoolean("Disk 0", Acquisition.diskPositions[0]);
+              SmartDashboard.putBoolean("Disk 1", Acquisition.diskPositions[1]);
+              SmartDashboard.putBoolean("Disk 2", Acquisition.diskPositions[2]);
+              SmartDashboard.putBoolean("Disk 3", Acquisition.diskPositions[3]);
  
             }
             catch (CANTimeoutException ex) {

@@ -17,8 +17,10 @@ public class AcquisitionState {
     public static final AcquisitionState SHOOT = new AcquisitionState(SHOOT_VAL);
     public static final AcquisitionState FEED = new AcquisitionState(FEED_VAL);
     public static final AcquisitionState PICKUP = new AcquisitionState(PICKUP_VAL);
-
+    
     private AcquisitionState(int value) {
         this.value = value;
     }
-}
+    
+    }
+

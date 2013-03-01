@@ -50,12 +50,15 @@ public class Acquisition extends Subsystem {
     // or appear where they shouldn't be
     
     public AcquisitionState acquisitionState = AcquisitionState.SHOOT;
+    public ScrewState screwState = ScrewState.NEUTRAL;
+    public boolean bottomSwitch = false;
+    public boolean topSwitch = false;
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void Acquisition()
     {
-        
+        // not clear we'll ever get these on the robot
         for (int i=0; i!=NUMPOSITIONS; i++)
         {
             infraRedSensor[i] = new AnalogChannel(i+1);
@@ -74,8 +77,69 @@ public class Acquisition extends Subsystem {
         System.out.println("Disk Acquision initDefaultCommand called.");
     }
     
-    public void refreshValues()
+    // return true if there was a change in values that requires action
+    public boolean refreshValues()
     {
+        bottomSwitch = RobotMap.bottonAcquisitionSwitch.get();
+        topSwitch =  RobotMap.topAcquisitionSwitch.get();
+
+        // We only act on a transition of the acquisition sensors if we're not 
+        // in the process of raising or lower a disk
+        if (screwState == ScrewState.NEUTRAL) {
+            // Do we have a new disk?
+            if (bottomSwitch) {
+                // Is there a disk in the top position?
+                if (!diskPositions[NUMPOSITIONS - 1]) {
+                    // if not, then we autoload
+                    // screwState will be polled by periodic, to lift
+                    screwState = ScrewState.LIFTING;
+                    return true;
+                } else {
+                    // we've detected a disk in the lower position
+                    // but since the top position is full, we just note
+                    // that the disk is here, but don't move it anywhere
+                    diskPositions[0] = true;
+                }
+            }
+            // we don't even consider the top swithc if th
+            if (topSwitch) {
+                // Is there a disk at the bottom position?
+                if (!diskPositions[0]) {
+                    // if not, then we can autoload -- downward
+                    // or autoshoot? Why would we ever do that?
+                    screwState = ScrewState.LOWERING;
+                    return true;
+                } else {
+                    diskPositions[NUMPOSITIONS - 1] = true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    // we update the disk positions -- one at a time, up or down
+    public int updateDiskPositions(int direction)
+    {
+        int count = 0;
+        if (direction > 0) {
+            // we move the disks up from top to bottom
+            for (int i=NUMPOSITIONS-1; i>1; i--) {
+                diskPositions[i] = diskPositions[i-1];
+                if (diskPositions[i]) { count++; }
+             }
+            diskPositions[0] = false;
+        }
+        else {
+            for (int i=0; i<NUMPOSITIONS-1; i++) {
+                diskPositions[i] = diskPositions[i+1];
+                if (diskPositions[i]) { count++; }
+            }
+        }
+            
+        return count;
+   }
+        
+    private void oldcode() {  
         // This temp variable is only in scop within this method
         // As we go through the loop, we'll increment this value and then at
         // the end, we'll compare it to what we had last time to see if it

@@ -7,6 +7,7 @@ package org.usfirst.frc2877.UltimateAscent2013Robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
 import org.usfirst.frc2877.UltimateAscent2013Robot.RobotMap;
+import org.usfirst.frc2877.UltimateAscent2013Robot.subsystems.ScrewState;
 /**
  *
  * @author Administrator
@@ -45,7 +46,9 @@ public class AcquisitionScrewControl extends Command {
         
         // if M-requested turns is less than zero, then we have to move the
         // screws down, so make the speed negative.
+        Robot.acquisition.screwState = ScrewState.LIFTING;
         if (m_requestedTurns < 0) {
+            Robot.acquisition.screwState = ScrewState.LOWERING;
             run = -1 * run;
         }
         // Don't depend on these being zero from the declaration init
@@ -71,11 +74,14 @@ public class AcquisitionScrewControl extends Command {
         {
             System.out.println("**** Limit switch contacted. ****");
             // We need to run a few cycles before we check for the switch or else
-            // it migh stop immediately.
+            // it might stop immediately.
             if (m_numCycles > MIN_CYCLES_TO_CLEAR && m_switchContacted)
             {
+                Robot.acquisition.updateDiskPositions(run > 0 ? 1 : -1);
+
                 System.out.println("Cleared " + MIN_CYCLES_TO_CLEAR + " cycles");
                 m_turns++;
+                
                 // if we have completed the requested number of turns,
                 // we can go straight to end.
                 if (m_turns == m_requestedTurns)
@@ -102,7 +108,8 @@ public class AcquisitionScrewControl extends Command {
         // It si finished it we have completed the right number of turns.
         // So the switch must be contacted and m_turns must be equal to the
         // requested number. I made it >= just in case.
-       return (m_turns >= m_requestedTurns);
+        Robot.acquisition.screwState = ScrewState.NEUTRAL;
+        return (m_turns >= m_requestedTurns);
     }
 
     // Called once after isFinished returns true
