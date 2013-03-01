@@ -46,6 +46,7 @@ public class  Drive extends Command {
         mecanumOn = Robot.oi.buttonMecanum.get();
         
         //System.out.println("mecanumOn = " + mecanumOn);
+        //Robot.driveTrain.hidDrive(Robot.oi.joystick1, mecanumOn);
         Robot.driveTrain.drive(x, y, mecanumOn); 
     }
 
