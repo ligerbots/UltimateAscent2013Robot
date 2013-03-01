@@ -21,7 +21,7 @@ public class AcquisitionScrewControl extends Command {
     private int m_numCycles = 0;
     // This constant is used to define how many cycles we need to go to make
     // sure that the cam has cleared the limit switch
-    private final int MIN_CYCLES_TO_CLEAR = 20;
+    private final int MIN_CYCLES_TO_CLEAR = 30;
     // In case the switch can be set for multiple iterations
     // It's initialized to false because we won't check it until after we have
     // run MIN_CYCLLES_TO_CLEAR iterations.
@@ -42,6 +42,7 @@ public class AcquisitionScrewControl extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        
         // if M-requested turns is less than zero, then we have to move the
         // screws down, so make the speed negative.
         if (m_requestedTurns < 0) {
@@ -63,13 +64,14 @@ public class AcquisitionScrewControl extends Command {
             m_count = 10;
             System.out.println("m_numCycles = " + m_numCycles + " m_turns = " + m_turns);
         }
-        // We need to run a few cycles before we check for the switch or else
-        // it migh stop immediately.
+
         // If the switch state has changed, then if it is now true that means
         // we just finished a rotation.
         if (limit != m_switchContacted)
         {
             System.out.println("**** Limit switch contacted. ****");
+            // We need to run a few cycles before we check for the switch or else
+            // it migh stop immediately.
             if (m_numCycles > MIN_CYCLES_TO_CLEAR && m_switchContacted)
             {
                 System.out.println("Cleared " + MIN_CYCLES_TO_CLEAR + " cycles");

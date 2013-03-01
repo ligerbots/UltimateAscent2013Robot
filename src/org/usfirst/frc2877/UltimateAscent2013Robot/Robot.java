@@ -44,6 +44,7 @@ public class Robot extends IterativeRobot {
     public static int m_count=10;
     public static int m_total_ticks = 0;
     public static boolean m_shooter_enable = false;
+    private double shooterAngle;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -88,6 +89,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+        commonPeriodic();
         Scheduler.getInstance().run();
         updateDashboard();
      }
@@ -112,17 +114,19 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        commonPeriodic();
+        Scheduler.getInstance().run();
+        updateDashboard();
+
+    }
+    
+    private void commonPeriodic() {
+        m_total_ticks++;
         // Check to see where the disks are
         Robot.acquisition.refreshValues();
         // check the shooter elevation angle
         Robot.shooter.shooterElevationAngle();
-       
-        m_total_ticks++;
-        Scheduler.getInstance().run();
-        updateDashboard();
-       
-        
-       }
+    }
 
     /**
      * This function called periodically during test mode
@@ -151,6 +155,10 @@ public class Robot extends IterativeRobot {
               SmartDashboard.putNumber("Left Back Current", RobotMap.driveTrainJaguarLeftBack.getOutputCurrent());
               SmartDashboard.putNumber("Right Front Current", RobotMap.driveTrainJaguarRightFront.getOutputCurrent());
               SmartDashboard.putNumber("Right Back Current", RobotMap.driveTrainJaguarRightBack.getOutputCurrent());
+              
+              SmartDashboard.putNumber("Shooter angle", Robot.shooter.currentShooterAngle);
+              SmartDashboard.putNumber("Shooter angle volts", Robot.shooter.shooterElevationVoltage);
+
  
             }
             catch (CANTimeoutException ex) {

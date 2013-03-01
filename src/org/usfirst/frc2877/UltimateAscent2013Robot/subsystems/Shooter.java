@@ -17,7 +17,12 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
-
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -36,19 +41,33 @@ public class Shooter extends Subsystem {
     // TODO: These must be updated once we make the measurements
     // This is the minimum voltage from the sensor when the shooter is at
     // it's minimum angle
-    private final double MIN_VOLTAGE = 1.0;
+    
     // This is the minimum angle of the shooter.
     private final double MIN_ANGLE = 20;
     
-    private final double MAX_VOLTAGE = 3.7;
+    private final double MAX_VOLTAGE = 4.91;
+    private final double MIN_VOLTAGE = 0.0;
+    private final double POT_RANGE = 300;
+
     private final double MAX_ANGLE = 50;
     private final double VOLTAGE_RANGE = MAX_VOLTAGE - MIN_VOLTAGE;
     private final double ANGLE_RANGE = MAX_ANGLE - MIN_ANGLE;
     int m_count = 10;
+    public double currentShooterAngle;
+    public double shooterElevationVoltage;
     
     // Current Shooter Angle
-    public double currentShooterAngle;
-    
+    // returns the current shooter angle in radians
+    public void shooterElevationAngle() {
+        shooterElevationVoltage = RobotMap.shooterAngleSensor.getAverageVoltage();
+        // clip the small negative values we get when the POT is at zero
+        if (shooterElevationVoltage < 0.0) {shooterElevationVoltage = 0.0;}
+        
+        // WE DON'T TRY TO ADD MIN_ANGLE HERE BECAUSE WE DON'T KNOW WHERE
+        // THE ZERO POINT OF THE POT ACTUALLY IS. So for now, show raw angle.
+        //    - Jared, Feb 28
+        currentShooterAngle = (POT_RANGE/VOLTAGE_RANGE)*shooterElevationVoltage;
+        }
             
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -80,11 +99,7 @@ public class Shooter extends Subsystem {
         }
     }
     
-    // returns the current shooter angle in radians
-    public void shooterElevationAngle() {
-        double shooterElevationVoltage = shooterElevationAngleSensor.getVoltage();
-        currentShooterAngle = MIN_ANGLE + ((shooterElevationVoltage - MIN_VOLTAGE) / VOLTAGE_RANGE) * ANGLE_RANGE;
-        }
+
     
 }
 
