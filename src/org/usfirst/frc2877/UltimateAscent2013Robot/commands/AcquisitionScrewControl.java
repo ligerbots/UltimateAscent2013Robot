@@ -46,9 +46,13 @@ public class AcquisitionScrewControl extends Command {
         // screws down, so make the speed negative.
         direction = 1;
         if (m_requestedTurns < 0) {
-            if (Robot.acquisition.m_lowestDisk +m_requestedTurns >= 0)
-            {
+            if (Robot.acquisition.m_lowestDisk +m_requestedTurns >= 0 &&
+                    !RobotMap.bottonAcquisitionSwitch.get()) {
                 direction = -1;
+            }
+            else {
+                // If we've got a disk at the bottom, we don't go down!
+                direction = 0;
             }
         }
 
@@ -65,53 +69,57 @@ public class AcquisitionScrewControl extends Command {
        
         if (--m_count==0) {
             m_count = 10;
-            System.out.println("m_numCycles = " + m_numCycles + " m_turns = " + m_turns);
+            System.out.println("m_numCycles = " + m_numCycles + " m_turns = " + m_turns +
+                               " Direction = " + direction);
         }
 
-        // If the switch state has changed, then if it is now true that means
-        // we just finished a rotation.
-        if (limit != m_switchContacted) {
-            System.out.println("**** Limit switch contacted. ****");
-            // We need to run a few cycles before we check for the switch or else
-            // it might stop immediately.
-            if (m_numCycles > MIN_CYCLES_TO_CLEAR && m_switchContacted)
-            {
-                System.out.println("Cleared " + MIN_CYCLES_TO_CLEAR + " cycles");
-                m_turns += direction;
-                // if we have completed the requested number of turns,
-                // we can go straight to end.
-                if (m_turns == m_requestedTurns)
+        if (direction!=0) {
+            // If the switch state has changed, then if it is now true that means
+            // we just finished a rotation.
+            if (limit != m_switchContacted) {
+                System.out.println("**** Limit switch contacted. ****");
+                // We need to run a few cycles before we check for the switch or else
+                // it might stop immediately.
+                if (m_numCycles > MIN_CYCLES_TO_CLEAR && m_switchContacted)
                 {
-                    Robot.acquisition.updateDiskPositions(direction);
-                    System.out.println("End screw turns");
-                    end();
+                    System.out.println("Cleared " + MIN_CYCLES_TO_CLEAR + " cycles");
+                    m_turns += direction;
+                    // if we have completed the requested number of turns,
+                    // we can go straight to end.
+                    if (m_turns == m_requestedTurns)
+                    {
+                        Robot.acquisition.updateDiskPositions(direction);
+                        System.out.println("End screw turns");
+                        end();
+                    }
+                System.out.println("Turn " + m_turns + " of " + m_requestedTurns);
                 }
-            System.out.println("Turn " + m_turns + " of " + m_requestedTurns);
             }
-        }
-        // Since the switch is not contacted, we have not completed
-        // the current turn, so keep going.
-        Robot.acquisition.acquisitionTurnScrews(direction*Robot.acquisition.ACQUISITIONSPEED);
 
-        // Save the current state of the switch to check against next iteration
-        m_switchContacted = limit;
-        // increment the number of cycles
-        m_numCycles++;
+            // Since the switch is not contacted, we have not completed
+            // the current turn, so keep going.
+            Robot.acquisition.acquisitionTurnScrews(direction*Robot.acquisition.ACQUISITIONSPEED);
+
+            // Save the current state of the switch to check against next iteration
+            m_switchContacted = limit;
+            // increment the number of cycles
+            m_numCycles++;
+        }
     }
   
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        // It si finished it we have completed the right number of turns.
+        // It is finished it we have completed the right number of turns.
         // So the switch must be contacted and m_turns must be equal to the
         // requested number. I made it >= just in case.
-        Robot.acquisition.m_direction = 0;
-        return (m_turns == m_requestedTurns);
+        return (direction==0 || m_turns == m_requestedTurns);
     }
 
     // Called once after isFinished returns true
     protected void end() {
         System.out.println("UpdateDiskPositions: NEUTRAL");
+        Robot.acquisition.m_direction = 0;
         Robot.acquisition.acquisitionTurnScrews(0);
     }
 

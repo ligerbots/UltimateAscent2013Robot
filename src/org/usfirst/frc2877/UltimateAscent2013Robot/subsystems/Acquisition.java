@@ -32,9 +32,9 @@ public class Acquisition extends Subsystem {
     // Define how many slots that can hold disks
     public static final int NUMPOSITIONS = 4;
     // Initialize the local variables
-    public int m_lowestDisk = 4;
-    public int m_highestDisk = -1;
-    public int m_numDisks = 0;
+    public static int m_lowestDisk = 4;
+    public static int m_highestDisk = -1;
+    public static int m_numDisks = 0;
     // TODO: set this threshold once we can measure it
     public static double threshold = 1.5;
     private static AnalogChannel[] infraRedSensor = new AnalogChannel[NUMPOSITIONS];
@@ -121,10 +121,10 @@ public class Acquisition extends Subsystem {
                 if (diskPositions[i]) { 
                     count++;
                     if (i>highestdisk) { highestdisk = i; }
+                    if (i<lowestdisk) {lowestdisk = i; }
                 }
              }
             diskPositions[0] = false;
-            lowestdisk = 1;
         }
         else {
             // we move the disks down from top to bottom
@@ -133,6 +133,7 @@ public class Acquisition extends Subsystem {
                 diskPositions[i] = diskPositions[i+1];
                 if (diskPositions[i]) {
                     count++;
+                    if (i>highestdisk) { highestdisk = i; }
                     if (i<lowestdisk) { lowestdisk = i; }
                 }
             }
