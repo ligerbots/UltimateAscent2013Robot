@@ -32,9 +32,9 @@ public class Acquisition extends Subsystem {
     // Define how many slots that can hold disks
     public static final int NUMPOSITIONS = 4;
     // Initialize the local variables
-    public int lowestDisk = 4;
-    public int highestDisk = -1;
-    public int numDisks = 0;
+    public int m_lowestDisk = 4;
+    public int m_highestDisk = -1;
+    public int m_numDisks = 0;
     // TODO: set this threshold once we can measure it
     public static double threshold = 1.5;
     private static AnalogChannel[] infraRedSensor = new AnalogChannel[NUMPOSITIONS];
@@ -50,7 +50,7 @@ public class Acquisition extends Subsystem {
     // or appear where they shouldn't be
     
     public AcquisitionState acquisitionState = AcquisitionState.SHOOT;
-    public ScrewState screwState = ScrewState.NEUTRAL;
+    public int m_direction = 0;
     public boolean bottomSwitch = false;
     public boolean topSwitch = false;
     
@@ -78,24 +78,19 @@ public class Acquisition extends Subsystem {
     }
     
     // return true if there was a change in values that requires action
-    public boolean refreshValues()
+    public int refreshValues()
     {
         bottomSwitch = RobotMap.bottonAcquisitionSwitch.get();
         topSwitch =  RobotMap.topAcquisitionSwitch.get();
-        boolean changed = false;
         // We only act on a transition of the acquisition sensors if we're not 
         // in the process of raising or lower a disk
-        if (screwState == ScrewState.NEUTRAL) {
+        if (m_direction == 0) {
             // Do we have a new disk?
             if (bottomSwitch) {
                 // Is there a disk in the top position?
                 if (!diskPositions[NUMPOSITIONS - 1]) {
-                    // if not, then we autoload
-                    // screwState will be polled by periodic, to lift
-                    screwState = ScrewState.LIFTING;
-                    // we have a disk
                     System.out.println("UpdateDiskPositions: LIFTING");
-                    changed = true;
+                    m_direction = 1;
                 }
                 // note that a disk just loaded
                 diskPositions[0] = true;
@@ -104,83 +99,51 @@ public class Acquisition extends Subsystem {
             if (topSwitch) {
                 // Is there a disk at the bottom position?
                 if (!diskPositions[0]) {
-                    // if not, then we can autoload -- downward
-                    // or autoshoot? Why would we ever do that?
-                    screwState = ScrewState.LOWERING;
-                    // we have a disk
                     System.out.println("UpdateDiskPositions: LOWERING");
-                    changed = true;
+                    m_direction = -1;
                 }
                 // note that a disk just loaded
                 diskPositions[NUMPOSITIONS - 1] = true;
             }
         }
-        return changed;
+        return m_direction;
     }
     // we update the disk positions -- one at a time, up or down
     public int updateDiskPositions(int direction)
     {
         System.out.println("updateDiskPositions " + direction);
-        int count = 0;
+        int count = 0, highestdisk = 0, lowestdisk = 3;
         if (direction > 0) {
-            // we move the disks up from top to bottom
+            // we move the disks up from bottom to top
             for (int i=NUMPOSITIONS-1; i>0; i--) {
                 System.out.println("Moving " + (i-1) +  " to " + i);
                 diskPositions[i] = diskPositions[i-1];
-                if (diskPositions[i]) { count++; }
+                if (diskPositions[i]) { 
+                    count++;
+                    if (i>highestdisk) { highestdisk = i; }
+                }
              }
             diskPositions[0] = false;
+            lowestdisk = 1;
         }
         else {
+            // we move the disks down from top to bottom
             for (int i=0; i<NUMPOSITIONS-1; i++) {
                 System.out.println("Moving " + (i+1) +  " to " + i);
                 diskPositions[i] = diskPositions[i+1];
-                if (diskPositions[i]) { count++; }
+                if (diskPositions[i]) {
+                    count++;
+                    if (i<lowestdisk) { lowestdisk = i; }
+                }
             }
             diskPositions[NUMPOSITIONS-1] = false;
         }
-            
+        m_lowestDisk = lowestdisk;
+        m_highestDisk = highestdisk;
+        m_numDisks = count;
         return count;
    }
         
-    private void oldcode() {  
-        // This temp variable is only in scop within this method
-        // As we go through the loop, we'll increment this value and then at
-        // the end, we'll compare it to what we had last time to see if it
-        // changed.
-        int tempNumDisks = 0;
-        // Similarly for lowestDisk and highestDisk
-        int tempLowestDisk = 4;
-        int tempHighestDisk = 0;
-       /* for (int i=0; i!=NUMPOSITIONS; i++)
-        {
-           sensorValues[i] = infraRedSensor[i].getVoltage();
-           diskPositionsCandidate[i] = (sensorValues[i] > threshold);
-           if (diskPositionsCandidate[i]) {
-               if (i < tempLowestDisk) {
-                   tempLowestDisk = i;
-               }
-               if (i > tempHighestDisk) {
-                   tempHighestDisk = i;
-               }
-               tempNumDisks++;
-           }
-        } */
-        // Check to see if the value changed.  If it did, update the SmartDashboard
-        if (tempNumDisks != numDisks) {
-            numDisks = tempNumDisks;
-            SmartDashboard.putNumber("Number of Disks Loaded: ", numDisks);
-        }
-        if (tempLowestDisk != lowestDisk) {
-            lowestDisk = tempLowestDisk;
-            SmartDashboard.putNumber("Level of Lowest Frisbee: ", lowestDisk);
-        }
-        if (tempHighestDisk != highestDisk) {
-            highestDisk = tempHighestDisk;
-            SmartDashboard.putNumber("Level of Highest Frisbee: ", highestDisk);
-        }
-    }
-
     public void acquisitionTurnScrews(double run)
     {
             try {

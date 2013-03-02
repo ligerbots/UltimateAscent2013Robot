@@ -20,10 +20,10 @@ public class Shoot extends CommandGroup {
 
         Robot.acquisition.acquisitionState = AcquisitionState.SHOOT;
         // If there are no disks, then we don't need to do anything
-        if (Robot.acquisition.numDisks > 0) {
+        if (Robot.acquisition.m_numDisks > 0) {
             // Determine how far to move the lowest disk.
             // The highest disk needs to move to slot 4
-            m_slotsToMove = 4 - Robot.acquisition.highestDisk;
+            m_slotsToMove = 4 - Robot.acquisition.m_highestDisk;
             // Since no disk can live in slot4, no need to check if 
             // slotsToMove != 0
         }

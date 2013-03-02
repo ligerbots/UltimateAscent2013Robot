@@ -7,7 +7,6 @@ package org.usfirst.frc2877.UltimateAscent2013Robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
 import org.usfirst.frc2877.UltimateAscent2013Robot.RobotMap;
-import org.usfirst.frc2877.UltimateAscent2013Robot.subsystems.ScrewState;
 /**
  *
  * @author Administrator
@@ -27,14 +26,13 @@ public class AcquisitionScrewControl extends Command {
     // It's initialized to false because we won't check it until after we have
     // run MIN_CYCLLES_TO_CLEAR iterations.
     private boolean m_switchContacted = false;
-    private int direction;
+    public int direction;
     // The default speed for the screws
     boolean limitSwitchTriggered;
     int m_count = 10;
     public AcquisitionScrewControl(int turns) {
         setInterruptible(false);
         m_requestedTurns = turns;
-        
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires (Robot.acquisition);
@@ -46,12 +44,14 @@ public class AcquisitionScrewControl extends Command {
         
         // if M-requested turns is less than zero, then we have to move the
         // screws down, so make the speed negative.
-        Robot.acquisition.screwState = ScrewState.LIFTING;
         direction = 1;
         if (m_requestedTurns < 0) {
-            Robot.acquisition.screwState = ScrewState.LOWERING;
-            direction = -1;
+            if (Robot.acquisition.m_lowestDisk +m_requestedTurns >= 0)
+            {
+                direction = -1;
+            }
         }
+
         // Don't depend on these being zero from the declaration init
         // It's not clear if we get a new copy of this class each time
         m_numCycles = 0;
@@ -105,7 +105,7 @@ public class AcquisitionScrewControl extends Command {
         // It si finished it we have completed the right number of turns.
         // So the switch must be contacted and m_turns must be equal to the
         // requested number. I made it >= just in case.
-        Robot.acquisition.screwState = ScrewState.NEUTRAL;
+        Robot.acquisition.m_direction = 0;
         return (m_turns == m_requestedTurns);
     }
 

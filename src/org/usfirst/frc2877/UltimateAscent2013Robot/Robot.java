@@ -115,8 +115,6 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         commonPeriodic();
         Scheduler.getInstance().run();
-        updateDashboard();
-
     }
     
     private void commonPeriodic() {
@@ -125,25 +123,24 @@ public class Robot extends IterativeRobot {
         // check the shooter elevation angle
         shooter.shooterElevationAngle();
         
-        // Check our acquisition sensors
-        if (acquisition.refreshValues()) {
-            // There was a change
-            switch (acquisition.screwState.value)
-            {
-                case ScrewState.LIFTING_VALUE:
-                    System.out.println("Screwstate: " );
-                    x = new AcquisitionScrewControl(1);
-                    x.start();
-                    break;
-                    
-                case ScrewState.LOWERING_VALUE:
-                    x = new AcquisitionScrewControl(-1);
-                    x.start();
-                    break;
-            }
-            
+        // Check our acquisition sensors.
+        // returns 1 if we need to lift a disk, -1 if we need to lower
+        // and 0 if there's nothing to do
+        switch (acquisition.refreshValues())
+        {
+            case 1:
+                System.out.println("Screwstate: " );
+                x = new AcquisitionScrewControl(1);
+                x.start();
+                break;
+
+            case -1:
+                x = new AcquisitionScrewControl(-1);
+                x.start();
+                break;
         }
-       updateDashboard();
+
+        updateDashboard();
     }
 
     /**

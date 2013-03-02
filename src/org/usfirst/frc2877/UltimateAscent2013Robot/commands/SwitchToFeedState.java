@@ -32,10 +32,10 @@ public class SwitchToFeedState extends CommandGroup {
         // Next we have to compute how many m_slotsToMove to pass in to
         // the AcquisitionScrewControl command
         // If there are no disks, then we don't need to do anything
-        if (Robot.acquisition.numDisks > 0) {
+        if (Robot.acquisition.m_numDisks > 0) {
             // Determine how far to move the lowest disk.
             // The highest disk needs to move to slot 4
-            m_slotsToMove = 2 - Robot.acquisition.highestDisk;
+            m_slotsToMove = 2 - Robot.acquisition.m_highestDisk;
         }
         
         // Now add the commands
