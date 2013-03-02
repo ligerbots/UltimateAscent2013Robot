@@ -74,7 +74,7 @@ public class Acquisition extends Subsystem {
 	
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        System.out.println("Disk Acquision initDefaultCommand called.");
+        System.out.println("Disk Acquisition initDefaultCommand called.");
     }
     
     // return true if there was a change in values that requires action
@@ -82,7 +82,7 @@ public class Acquisition extends Subsystem {
     {
         bottomSwitch = RobotMap.bottonAcquisitionSwitch.get();
         topSwitch =  RobotMap.topAcquisitionSwitch.get();
-
+        boolean changed = false;
         // We only act on a transition of the acquisition sensors if we're not 
         // in the process of raising or lower a disk
         if (screwState == ScrewState.NEUTRAL) {
@@ -93,13 +93,12 @@ public class Acquisition extends Subsystem {
                     // if not, then we autoload
                     // screwState will be polled by periodic, to lift
                     screwState = ScrewState.LIFTING;
-                    return true;
-                } else {
-                    // we've detected a disk in the lower position
-                    // but since the top position is full, we just note
-                    // that the disk is here, but don't move it anywhere
-                    diskPositions[0] = true;
+                    // we have a disk
+                    System.out.println("UpdateDiskPositions: LIFTING");
+                    changed = true;
                 }
+                // note that a disk just loaded
+                diskPositions[0] = true;
             }
             // we don't even consider the top swithc if th
             if (topSwitch) {
@@ -108,22 +107,25 @@ public class Acquisition extends Subsystem {
                     // if not, then we can autoload -- downward
                     // or autoshoot? Why would we ever do that?
                     screwState = ScrewState.LOWERING;
-                    return true;
-                } else {
-                    diskPositions[NUMPOSITIONS - 1] = true;
+                    // we have a disk
+                    System.out.println("UpdateDiskPositions: LOWERING");
+                    changed = true;
                 }
+                // note that a disk just loaded
+                diskPositions[NUMPOSITIONS - 1] = true;
             }
         }
-        return false;
+        return changed;
     }
-    
     // we update the disk positions -- one at a time, up or down
     public int updateDiskPositions(int direction)
     {
+        System.out.println("updateDiskPositions " + direction);
         int count = 0;
         if (direction > 0) {
             // we move the disks up from top to bottom
-            for (int i=NUMPOSITIONS-1; i>1; i--) {
+            for (int i=NUMPOSITIONS-1; i>0; i--) {
+                System.out.println("Moving " + (i-1) +  " to " + i);
                 diskPositions[i] = diskPositions[i-1];
                 if (diskPositions[i]) { count++; }
              }
@@ -131,9 +133,11 @@ public class Acquisition extends Subsystem {
         }
         else {
             for (int i=0; i<NUMPOSITIONS-1; i++) {
+                System.out.println("Moving " + (i+1) +  " to " + i);
                 diskPositions[i] = diskPositions[i+1];
                 if (diskPositions[i]) { count++; }
             }
+            diskPositions[NUMPOSITIONS-1] = false;
         }
             
         return count;
