@@ -39,7 +39,7 @@ public class Acquisition extends Subsystem {
     public static double threshold = 1.5;
     private static AnalogChannel[] infraRedSensor = new AnalogChannel[NUMPOSITIONS];
     private static double[] sensorValues = new double[NUMPOSITIONS];
-    public static final double ACQUISITIONSPEED = 1;
+    public static final double ACQUISITIONSPEED = .5;
     public static final double SHOOTLOADSPEED = .5;
     
     // diskPositions is what we think the current disk positions are
@@ -116,7 +116,8 @@ public class Acquisition extends Subsystem {
         if (direction > 0) {
             // we move the disks up from bottom to top
             for (int i=NUMPOSITIONS-1; i>0; i--) {
-                System.out.println("Moving " + (i-1) +  " to " + i);
+                System.out.println("Moving " + (i-1) +  " to " + i + 
+                        (diskPositions[i-1] ? " with disk." : " without disk."));
                 diskPositions[i] = diskPositions[i-1];
                 if (diskPositions[i]) { 
                     count++;
@@ -129,7 +130,8 @@ public class Acquisition extends Subsystem {
         else {
             // we move the disks down from top to bottom
             for (int i=0; i<NUMPOSITIONS-1; i++) {
-                System.out.println("Moving " + (i+1) +  " to " + i);
+                System.out.println("Moving " + (i+1) +  " to " + i + 
+                        (diskPositions[i+1] ? " with disk." : " without disk."));
                 diskPositions[i] = diskPositions[i+1];
                 if (diskPositions[i]) {
                     count++;
