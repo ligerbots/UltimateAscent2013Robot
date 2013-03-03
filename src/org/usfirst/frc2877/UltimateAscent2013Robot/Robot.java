@@ -42,6 +42,10 @@ public class Robot extends IterativeRobot {
     public ShooterElevationControl shooterElevationControl;
     public static int m_total_ticks = 0;
     public static boolean m_shooter_enable = false;
+    // This constant is used to define how many cycles we need to go to make
+    // sure that the cam has cleared the limit switch
+    public static int OVERSHOOT_AMOUNT_UP = 9;
+    public static int OVERSHOOT_AMOUNT_DOWN = 11;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -182,6 +186,10 @@ public class Robot extends IterativeRobot {
               
               SmartDashboard.putNumber("Lowest disk", Acquisition.m_lowestDisk);
               SmartDashboard.putNumber("Highest disk", Acquisition.m_highestDisk);
+              
+              SmartDashboard.putNumber("OVERSHOOT_AMOUNT_UP", OVERSHOOT_AMOUNT_UP);
+              SmartDashboard.putNumber("OVERSHOOT_AMOUNT_DOWN", OVERSHOOT_AMOUNT_DOWN);
+
  
             }
             catch (CANTimeoutException ex) {

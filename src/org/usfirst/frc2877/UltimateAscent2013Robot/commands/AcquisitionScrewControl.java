@@ -4,14 +4,14 @@
  */
 package org.usfirst.frc2877.UltimateAscent2013Robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
 import org.usfirst.frc2877.UltimateAscent2013Robot.RobotMap;
 /**
  *
  * @author Administrator
  */
-public class AcquisitionScrewControl extends Command {
+public class AcquisitionScrewControl extends CommandGroup {
     
     // save the requested number of turns
     private int m_requestedTurns = 0;
@@ -19,15 +19,13 @@ public class AcquisitionScrewControl extends Command {
     private int m_turns;
     // keep track of how many iterations we've done
     private int m_numCycles = 0;
-    // This constant is used to define how many cycles we need to go to make
-    // sure that the cam has cleared the limit switch
-    private final int OVERSHOOT_AMOUNT = 4;
+
     // In case the switch can be set for multiple iterations
     // It's initialized to false because we won't check it until after we have
     // run MIN_CYCLLES_TO_CLEAR iterations.
     // m_active start out false if we're already in contact with the switch
     // it goes true, once we're not in contact with the switch
-    private static boolean m_active = false;
+    private static boolean m_armed = false;
     private static int overshootCycles = 0;
     public int m_direction;
     // The default speed for the screws
@@ -46,7 +44,7 @@ public class AcquisitionScrewControl extends Command {
     protected void initialize() {
         // If we start out in contact with the switch, then we're "inactive"
         // (for switch sensing), until we get out of contact
-        m_active = !RobotMap.acquisitionRotaryLimitSwitch.get();
+        m_armed = !RobotMap.acquisitionRotaryLimitSwitch.get();
         overshootCycles = 0;
         // if M-requested turns is less than zero, then we have to move the
         // screws down, so make the speed negative.
@@ -81,20 +79,21 @@ public class AcquisitionScrewControl extends Command {
         
         if (m_direction != 0) {
             System.out.println("Limit: " + (limit?"true":"false") + " | Active: " + 
-                                (m_active?"true":"false") + " | m_numCycles: " +
+                                (m_armed?"true":"false") + " | m_numCycles: " +
                                 m_numCycles + " | overshootCycles: " + overshootCycles);
             if (--overshootCycles < 0) {
                 // we stay inactive as long as the limit switch continues to be true
                 // this lets us clear if we started out in contact
-                if (!m_active && !limit) {
-                    m_active = true;
+                if (!m_armed && !limit) {
+                    m_armed = true;
                 }
-                if (m_active && limit) {
+                if (m_armed && limit) {
                     System.out.println("**** Active limit switch contacted. ****");
                     m_turns += m_direction;
                     // if we have completed the requested number of turns,
                     // we can go straight to end.
-                    overshootCycles = OVERSHOOT_AMOUNT;
+                    overshootCycles = m_direction>0 ?  
+                                    Robot.OVERSHOOT_AMOUNT_UP: Robot.OVERSHOOT_AMOUNT_DOWN ;
                     System.out.println("Turn " + m_turns + " of " + m_requestedTurns);
                 }
             }
@@ -118,11 +117,7 @@ public class AcquisitionScrewControl extends Command {
         Robot.acquisition.acquisitionTurnScrews(m_direction * Robot.acquisition.ACQUISITIONSPEED);
         // increment the number of cycles
         m_numCycles++;
-
     }
-
-  
-
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         // It is finished it we have completed the right number of turns.
