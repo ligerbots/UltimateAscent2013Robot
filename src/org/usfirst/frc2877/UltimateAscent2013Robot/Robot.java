@@ -161,40 +161,24 @@ public class Robot extends IterativeRobot {
         {
             m_count = TICKS_PER_SECOND/FREQUENCY;
             SmartDashboard.putNumber("Ticks", m_total_ticks);
-            //Robot.debugOutNumber("Pot Avg Voltage ", RobotMap.shooterAngleSensor.getAverageVoltage());
-            //Robot.debugOutBoolean("Rotary limit switch", RobotMap.acquisitionRotaryLimitSwitch.get());
-            //Robot.debugOutBoolean("Bottom acquisition switch", RobotMap.bottonAcquisitionSwitch.get());
-            //Robot.debugOutBoolean("Top Acquisition switch", RobotMap.topAcquisitionSwitch.get());
-            try {
-              SmartDashboard.putNumber("Left Front", RobotMap.driveTrainJaguarLeftFront.getOutputVoltage());
-              SmartDashboard.putNumber("Left Back", RobotMap.driveTrainJaguarLeftBack.getOutputVoltage());
-              SmartDashboard.putNumber("Right Front", RobotMap.driveTrainJaguarRightFront.getOutputVoltage());
-              SmartDashboard.putNumber("Right Back", RobotMap.driveTrainJaguarRightBack.getOutputVoltage());
+
+            RobotMap.jags.UpdateDashboard();
               
-              SmartDashboard.putNumber("Left Front Current", RobotMap.driveTrainJaguarLeftFront.getOutputCurrent());
-              SmartDashboard.putNumber("Left Back Current", RobotMap.driveTrainJaguarLeftBack.getOutputCurrent());
-              SmartDashboard.putNumber("Right Front Current", RobotMap.driveTrainJaguarRightFront.getOutputCurrent());
-              SmartDashboard.putNumber("Right Back Current", RobotMap.driveTrainJaguarRightBack.getOutputCurrent());
-              
-              SmartDashboard.putNumber("Shooter angle", Robot.shooter.currentShooterAngle);
-              SmartDashboard.putNumber("Shooter angle volts", Robot.shooter.shooterElevationVoltage);
-              
-              SmartDashboard.putBoolean("Disk 0", Acquisition.diskPositions[0]);
-              SmartDashboard.putBoolean("Disk 1", Acquisition.diskPositions[1]);
-              SmartDashboard.putBoolean("Disk 2", Acquisition.diskPositions[2]);
-              SmartDashboard.putBoolean("Disk 3", Acquisition.diskPositions[3]);
-              
-              SmartDashboard.putNumber("Lowest disk", Acquisition.m_lowestDisk);
-              SmartDashboard.putNumber("Highest disk", Acquisition.m_highestDisk);
-              
-              SmartDashboard.putNumber("OVERSHOOT_AMOUNT_UP", OVERSHOOT_AMOUNT_UP);
-              SmartDashboard.putNumber("OVERSHOOT_AMOUNT_DOWN", OVERSHOOT_AMOUNT_DOWN);
+            SmartDashboard.putNumber("Shooter angle", Robot.shooter.currentShooterAngle);
+            SmartDashboard.putNumber("Shooter angle volts", Robot.shooter.shooterElevationVoltage);
+
+            SmartDashboard.putBoolean("Disk 0", Acquisition.diskPositions[0]);
+            SmartDashboard.putBoolean("Disk 1", Acquisition.diskPositions[1]);
+            SmartDashboard.putBoolean("Disk 2", Acquisition.diskPositions[2]);
+            SmartDashboard.putBoolean("Disk 3", Acquisition.diskPositions[3]);
+
+            SmartDashboard.putNumber("Lowest disk", Acquisition.m_lowestDisk);
+            SmartDashboard.putNumber("Highest disk", Acquisition.m_highestDisk);
+
+            SmartDashboard.putNumber("OVERSHOOT_AMOUNT_UP", OVERSHOOT_AMOUNT_UP);
+            SmartDashboard.putNumber("OVERSHOOT_AMOUNT_DOWN", OVERSHOOT_AMOUNT_DOWN);
 
  
-            }
-            catch (CANTimeoutException ex) {
-                System.out.println("CAN Timeout Exception getting Jaguar data." );
-            }
         }
         
     }
