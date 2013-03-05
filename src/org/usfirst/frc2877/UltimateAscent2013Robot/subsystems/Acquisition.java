@@ -37,17 +37,11 @@ public class Acquisition extends Subsystem {
     public static int m_numDisks = 0;
     // TODO: set this threshold once we can measure it
     public static double threshold = 1.5;
-    private static AnalogChannel[] infraRedSensor = new AnalogChannel[NUMPOSITIONS];
-    private static double[] sensorValues = new double[NUMPOSITIONS];
     public static final double ACQUISITIONSPEED = .5;
     public static final double SHOOTLOADSPEED = .5;
     
     // diskPositions is what we think the current disk positions are
     public static boolean[] diskPositions = new boolean[NUMPOSITIONS];
-    // diskPositions candidate is where the sensors tell us the disks are now
-    public static boolean[] diskPositionsCandidate = new boolean[NUMPOSITIONS];
-    // we have two arrays so we can check for anamolies -- disks that disappear
-    // or appear where they shouldn't be
     
     public AcquisitionState acquisitionState = AcquisitionState.SHOOT;
     public int m_direction = 0;
@@ -59,12 +53,8 @@ public class Acquisition extends Subsystem {
     public void Acquisition()
     {
         // not clear we'll ever get these on the robot
-        for (int i=0; i!=NUMPOSITIONS; i++)
-        {
-            infraRedSensor[i] = new AnalogChannel(i+1);
-            sensorValues[i] = 0.0;
+        for (int i=0; i!=NUMPOSITIONS; i++) {
             diskPositions[i] = false;
-            diskPositionsCandidate[i] = false;
         }
     }
 
@@ -77,33 +67,51 @@ public class Acquisition extends Subsystem {
         System.out.println("Disk Acquisition initDefaultCommand called.");
     }
     
+    // This is emergency disk clear for when our lift messes up and we clear
+    // on timeout
+    public void clearDisks() {
+        for (int i=0; i!=NUMPOSITIONS; i++) {
+             diskPositions[i] = false;
+        }
+    }
+    
+    
     // return true if there was a change in values that requires action
     public int refreshValues()
     {
-        bottomSwitch = RobotMap.bottonAcquisitionSwitch.get();
-        topSwitch =  RobotMap.topAcquisitionSwitch.get();
+        // The bottom and top switches are wired to be normally open
+        // Therefore, when the switch is tripped it reads FALSE
+        // We invert the sense so bottomSwitch = true or topSwitch=true
+        // means a disk is present
+        bottomSwitch = !RobotMap.bottomAcquisitionSwitch.get();
+        topSwitch =  !RobotMap.topAcquisitionSwitch.get();
         // We only act on a transition of the acquisition sensors if we're not 
         // in the process of raising or lower a disk
         if (m_direction == 0) {
-            // Do we have a new disk?
-            if (bottomSwitch) {
-                // Is there a disk in the top position?
-                if (!diskPositions[NUMPOSITIONS - 1]) {
-                    System.out.println("UpdateDiskPositions: LIFTING");
-                    m_direction = 1;
-                }
-                // note that a disk just loaded
-                diskPositions[0] = true;
-            }
-            // we don't even consider the top swithc if th
-            if (topSwitch) {
+
+            // The top switch only registers if we didn't already start with
+            // a disk there.
+            if (topSwitch && !diskPositions[NUMPOSITIONS-1]) {
                 // Is there a disk at the bottom position?
+                System.out.println("======= Top switch hit =======");
                 if (!diskPositions[0]) {
-                    System.out.println("UpdateDiskPositions: LOWERING");
+                    System.out.println("======= LOWERING =======");
                     m_direction = -1;
                 }
                 // note that a disk just loaded
                 diskPositions[NUMPOSITIONS - 1] = true;
+            }
+            
+            // Do we have a new disk?
+            if (bottomSwitch) {
+                // Is there a disk in the top position?
+                System.out.println("======= Bottom switch hit =======");
+                if (!diskPositions[NUMPOSITIONS - 1]) {
+                    System.out.println("======= LIFTING =======");
+                    m_direction = 1;
+                }
+                // note that a disk just loaded
+                diskPositions[0] = true;
             }
         }
         return m_direction;

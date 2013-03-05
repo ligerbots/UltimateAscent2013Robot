@@ -48,6 +48,8 @@ public class Shooter extends Subsystem {
     private final double MAX_VOLTAGE = 4.91;
     private final double MIN_VOLTAGE = 0.0;
     private final double POT_RANGE = 300;
+    // The zero point of the POT is 150 on the prototype
+    private final double MIN_POT_VALUE = 150;
 
     private final double MAX_ANGLE = 50;
     private final double VOLTAGE_RANGE = MAX_VOLTAGE - MIN_VOLTAGE;
@@ -66,7 +68,8 @@ public class Shooter extends Subsystem {
         // WE DON'T TRY TO ADD MIN_ANGLE HERE BECAUSE WE DON'T KNOW WHERE
         // THE ZERO POINT OF THE POT ACTUALLY IS. So for now, show raw angle.
         //    - Jared, Feb 28
-        currentShooterAngle = (POT_RANGE/VOLTAGE_RANGE)*shooterElevationVoltage;
+        currentShooterAngle = (POT_RANGE/VOLTAGE_RANGE)*shooterElevationVoltage -
+                MIN_POT_VALUE;
         }
             
     // Put methods for controlling this subsystem
@@ -92,10 +95,9 @@ public class Shooter extends Subsystem {
                 m_count = 10;
                 //Robot.debugOutNumber("Shooter energy", y*ANGLESPEEDCONSTANT);
                 //Robot.debugOutNumber("Elevation angle", currentShooterAngle);
-                
             }
         } catch (edu.wpi.first.wpilibj.can.CANTimeoutException ex) {
-        System.out.println("Timeout Exception on shooterAngle.setX in runShooterAngle");
+            System.out.println("Timeout Exception on shooterAngle.setX in runShooterAngle");
         }
     }
     

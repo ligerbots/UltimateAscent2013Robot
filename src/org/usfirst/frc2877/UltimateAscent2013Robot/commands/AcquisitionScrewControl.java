@@ -26,11 +26,12 @@ public class AcquisitionScrewControl extends CommandGroup {
     // m_active start out false if we're already in contact with the switch
     // it goes true, once we're not in contact with the switch
     private static boolean m_armed = false;
-    private static int overshootCycles = 0;
+    private static int m_overshootCycles = 0;
     public int m_direction;
     // The default speed for the screws
     boolean limitSwitchTriggered;
     int m_count = 10;
+    boolean m_outputted;
     public AcquisitionScrewControl(int turns) {
         setInterruptible(false);
         m_requestedTurns = turns;
@@ -42,16 +43,19 @@ public class AcquisitionScrewControl extends CommandGroup {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        // If we start out in contact with the switch, then we're "inactive"
+        // If we start out in contact with the switch, then we're not "armed"
         // (for switch sensing), until we get out of contact
         m_armed = !RobotMap.acquisitionRotaryLimitSwitch.get();
-        overshootCycles = 0;
+        m_overshootCycles = 0;
         // if M-requested turns is less than zero, then we have to move the
         // screws down, so make the speed negative.
         m_direction = 1;
         if (m_requestedTurns < 0) {
-            if (Robot.acquisition.m_lowestDisk + m_requestedTurns >= 0 &&
-                    !RobotMap.bottonAcquisitionSwitch.get()) {
+            // Safety -- don't go down if a disk it at the bottom
+            if ((Robot.acquisition.m_lowestDisk + m_requestedTurns) >= 0 &&
+                    // remember bottomAcquisitionSwitch.get() is inverted
+                    // false means a disk is present
+                    RobotMap.bottomAcquisitionSwitch.get()) {
                 m_direction = -1;
             }
             else {
@@ -60,8 +64,6 @@ public class AcquisitionScrewControl extends CommandGroup {
             }
         }
 
-        // Don't depend on these being zero from the declaration init
-        // It's not clear if we get a new copy of this class each time
         m_numCycles = 0;
         m_turns = 0;
         System.out.println("AcquisitionOverride requested Turns: " + m_requestedTurns);
@@ -71,37 +73,28 @@ public class AcquisitionScrewControl extends CommandGroup {
     protected void execute() {
         boolean limit = RobotMap.acquisitionRotaryLimitSwitch.get();
 
-        if (--m_count == 0) {
-            m_count = 10;
-            System.out.println("m_numCycles = " + m_numCycles + " m_turns = " + m_turns
-                    + " Direction = " + m_direction);
-        }
-        
+        m_outputted = false;
         if (m_direction != 0) {
-            System.out.println("Limit: " + (limit?"true":"false") + " | Active: " + 
-                                (m_armed?"true":"false") + " | m_numCycles: " +
-                                m_numCycles + " | overshootCycles: " + overshootCycles);
-            if (--overshootCycles < 0) {
+            if (--m_overshootCycles < 0) {
                 // we stay inactive as long as the limit switch continues to be true
                 // this lets us clear if we started out in contact
                 if (!m_armed && !limit) {
                     m_armed = true;
                 }
                 if (m_armed && limit) {
-                    System.out.println("**** Active limit switch contacted. ****");
-                    m_turns += m_direction;
+                    System.out.println("**** Rotary limit switch contacted. ****");
                     // if we have completed the requested number of turns,
                     // we can go straight to end.
-                    overshootCycles = m_direction>0 ?  
-                                    Robot.OVERSHOOT_AMOUNT_UP: Robot.OVERSHOOT_AMOUNT_DOWN ;
-                    System.out.println("Turn " + m_turns + " of " + m_requestedTurns);
+                    m_overshootCycles = m_direction > 0
+                            ? Robot.OVERSHOOT_AMOUNT_UP : Robot.OVERSHOOT_AMOUNT_DOWN;
+                    outputTurnInfo(limit);
                 }
-            }
-            else {
-                if (overshootCycles == 0) {
+            } else {
+                if (m_overshootCycles == 0) {
+                    outputTurnInfo(limit);
                     // once we've completed our overshoot amount, we're done with a turn
                     Robot.acquisition.updateDiskPositions(m_direction);
-                    if (m_turns++ == m_requestedTurns) {
+                    if ((m_turns += m_direction) == m_requestedTurns) {
                         // Once we've
                         Robot.acquisition.acquisitionTurnScrews(0);
                         Robot.acquisition.m_direction = m_direction = 0;
@@ -109,21 +102,51 @@ public class AcquisitionScrewControl extends CommandGroup {
                         return;
                     }
                 }
-            } 
-        }
+            }
 
-        // Since the switch is not contacted, we have not completed
-        // the current turn, so keep going.
-        Robot.acquisition.acquisitionTurnScrews(m_direction * Robot.acquisition.ACQUISITIONSPEED);
-        // increment the number of cycles
-        m_numCycles++;
+            // safety code -- we never run more than a full cycle (presumed to be 48
+            // turns), past requested turns, even 
+            if (m_numCycles++ == (24 + 24 * Math.abs(m_requestedTurns))) {
+                outputTurnInfo(limit);
+                Robot.acquisition.acquisitionTurnScrews(0);
+                Robot.acquisition.m_direction = m_direction = 0;
+                Robot.acquisition.updateDiskPositions(m_direction * 2);
+                m_turns = m_requestedTurns;     // pretend we're done
+                System.out.println("************** !!SAFETY STOPPED COILS at " + m_numCycles
+                        + " CYCLES !! ****************");
+                return;
+            }
+            // Since the switch is not contacted, we have not completed
+            // the current turn, so keep going.
+            Robot.acquisition.acquisitionTurnScrews(m_direction * Robot.acquisition.ACQUISITIONSPEED);
+            // increment the number of cycles
+
+            if (--m_count == 0) {
+                m_count = 5;
+                outputTurnInfo(limit);      // if we haven't yet done so
+            }
+        }
     }
+    
+    // Call this to output info whenever something interesting changes,
+    // or every N cycles (right now N = 5)
+    private void outputTurnInfo(boolean limit) {
+        if (!m_outputted) {
+            System.out.println("Limit: " + (limit?"true":"false") + " | Armed: " + 
+                (m_armed?"true":"false") + " | m_numCycles: " +
+                m_numCycles + " | overshootCycles: " + m_overshootCycles +
+                    " | direc: " + m_direction);
+            m_outputted = true;
+        }
+    }
+            
+
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         // It is finished it we have completed the right number of turns.
         // So the switch must be contacted and m_turns must be equal to the
         // requested number. I made it >= just in case.
-        return (m_direction==0 || (m_turns == m_requestedTurns && overshootCycles <= 0));
+        return (m_direction==0 || (m_turns == m_requestedTurns && m_overshootCycles <= 0));
     }
 
     // Called once after isFinished returns true

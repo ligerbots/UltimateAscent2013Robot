@@ -120,8 +120,7 @@ public class OI {
         buttonAcquisitionOverrideUp = new JoystickButton(joystick2, 3);
         buttonAcquisitionOverrideUp.whenPressed(screwupOne);
         // button6 moves the shooter angle to preset height for feeder station
-        buttonShooterToFeedHeight = new JoystickButton(joystick2, 6);
-        buttonShooterToFeedHeight.whenPressed(new ShooterToFeedHeight());
+
     }
     
     

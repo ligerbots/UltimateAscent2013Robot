@@ -39,7 +39,7 @@ public class RobotMap {
     public static AnalogChannel analogSwitchTest1;
     public static AnalogChannel analogSwitchTest2;
     public static DigitalInput acquisitionRotaryLimitSwitch;
-    public static DigitalInput bottonAcquisitionSwitch;
+    public static DigitalInput bottomAcquisitionSwitch;
     public static DigitalInput topAcquisitionSwitch;
     public static Relay climbClimbLeftWinch;
     public static Relay climbClimbRightWinch;
@@ -59,7 +59,7 @@ public class RobotMap {
         driveTrainJaguarRightFront = jags.init(5, "Right Front");
         shooterBackWheel = jags.init(6, "Shooter Back Wheel");
         shooterFrontWheel = jags.init(7, "Shooter Front Wheel");
-        acquisitionScrewlift = jags.init(8, "Acquisition screw");
+        acquisitionScrewlift = jags.init(8, "Elevator Coils");
         shooterAngleControl = jags.init(4, "Shooter Tilt");
         driveTrainRobotDrive41 = new RobotDrive(driveTrainJaguarLeftFront, driveTrainJaguarLeftBack,
            driveTrainJaguarRightFront, driveTrainJaguarRightBack);
@@ -77,7 +77,7 @@ public class RobotMap {
         shooterAngleSensor = new AnalogChannel(5);
         //analogSwitchTest1 = new AnalogChannel(8);
         acquisitionRotaryLimitSwitch = new DigitalInput(3);
-        bottonAcquisitionSwitch = new DigitalInput(1);
+        bottomAcquisitionSwitch = new DigitalInput(1);
         topAcquisitionSwitch = new DigitalInput(2);
 //        shooterShooterAngleEncoder = new Encoder(1, 3, 1, 4, false, EncodingType.k4X);
 //	LiveWindow.addSensor("Shooter", "Shooter AngleEncoder", shooterShooterAngleEncoder);
