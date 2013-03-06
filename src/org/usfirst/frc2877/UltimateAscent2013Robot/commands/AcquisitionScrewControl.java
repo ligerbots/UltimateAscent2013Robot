@@ -68,7 +68,6 @@ public class AcquisitionScrewControl extends CommandGroup {
         m_turns = 0;
         System.out.println("AcquisitionOverride requested Turns: " + m_requestedTurns);
     }
-
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         boolean limit = RobotMap.acquisitionRotaryLimitSwitch.get();
@@ -97,20 +96,21 @@ public class AcquisitionScrewControl extends CommandGroup {
                     if ((m_turns += m_direction) == m_requestedTurns) {
                         // Once we've
                         Robot.acquisition.acquisitionTurnScrews(0);
+                        Robot.acquisition.m_last_direction = m_direction;
                         Robot.acquisition.m_direction = m_direction = 0;
                         System.out.println("************** Finished a full turn ****************");
                         return;
                     }
                 }
             }
-
             // safety code -- we never run more than a full cycle (presumed to be 48
             // turns), past requested turns, even 
             if (m_numCycles++ == (24 + 24 * Math.abs(m_requestedTurns))) {
                 outputTurnInfo(limit);
                 Robot.acquisition.acquisitionTurnScrews(0);
-                Robot.acquisition.m_direction = m_direction = 0;
+                Robot.acquisition.m_last_direction = m_direction;
                 Robot.acquisition.updateDiskPositions(m_direction * 2);
+                Robot.acquisition.m_direction = m_direction = 0;
                 m_turns = m_requestedTurns;     // pretend we're done
                 System.out.println("************** !!SAFETY STOPPED COILS at " + m_numCycles
                         + " CYCLES !! ****************");

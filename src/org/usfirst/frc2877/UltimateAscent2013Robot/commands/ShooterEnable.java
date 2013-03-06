@@ -24,7 +24,7 @@ public class ShooterEnable extends Command {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    public void initialize() {
         double frontWheel = 0.0, backWheel = 0.0;
         Robot.m_shooter_enable = !Robot.m_shooter_enable;
         Robot.debugOutBoolean("Shooter enable", Robot.m_shooter_enable);

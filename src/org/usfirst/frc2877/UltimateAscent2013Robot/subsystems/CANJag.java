@@ -26,12 +26,13 @@ public class CANJag {
     
     public CANJag(int jagnum, String descr) {
         m_description = descr;
-        System.out.println("CAN init " + jagnum + " " + descr);
+        System.out.print("CAN init " + jagnum + " " + descr);
         try {
             m_jag = new CANJaguar(jagnum);
+            System.out.println(" OK");
         } catch (CANTimeoutException ex) {
             m_lasterror = ex.getMessage();
-            System.out.println(m_lasterror + " " + m_description);
+            System.out.println(" FAILED: " + m_lasterror);
             m_status = false;
         }
         m_status = true;

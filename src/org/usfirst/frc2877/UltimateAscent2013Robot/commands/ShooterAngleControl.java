@@ -11,9 +11,9 @@ import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
  *
  * @author fitzpaj
  */
-public class ShooterElevationControl extends Command {
+public class ShooterAngleControl extends Command {
     
-    public ShooterElevationControl() {
+    public ShooterAngleControl() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);       
         requires(Robot.shooter);

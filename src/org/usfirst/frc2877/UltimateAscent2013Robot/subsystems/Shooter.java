@@ -100,8 +100,14 @@ public class Shooter extends Subsystem {
             System.out.println("Timeout Exception on shooterAngle.setX in runShooterAngle");
         }
     }
-    
-
-    
+    public boolean moveToAngle(double desiredAngle)
+    {
+        double h = .75;
+        if(Robot.shooter.currentShooterAngle<=desiredAngle+1 || Robot.shooter.currentShooterAngle>= desiredAngle-1){
+            Robot.shooter.runShooterAngle(h);
+            return true;
+        }
+        return false;
+    }
 }
 
