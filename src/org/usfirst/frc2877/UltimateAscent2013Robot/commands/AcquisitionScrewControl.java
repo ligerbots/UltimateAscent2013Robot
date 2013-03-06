@@ -19,7 +19,6 @@ public class AcquisitionScrewControl extends CommandGroup {
     private int m_turns;
     // keep track of how many iterations we've done
     private int m_numCycles = 0;
-
     // In case the switch can be set for multiple iterations
     // It's initialized to false because we won't check it until after we have
     // run MIN_CYCLLES_TO_CLEAR iterations.
@@ -27,23 +26,25 @@ public class AcquisitionScrewControl extends CommandGroup {
     // it goes true, once we're not in contact with the switch
     private static boolean m_armed = false;
     private static int m_overshootCycles = 0;
-    public int m_direction;
     // The default speed for the screws
+    public int m_direction;
     boolean limitSwitchTriggered;
     int m_count = 10;
     boolean m_outputted;
-    public AcquisitionScrewControl(int turns) {
+    boolean m_calledBySwitch;
+    
+    public AcquisitionScrewControl(int turns, boolean calledBySwitch) {
         setInterruptible(false);
+        m_calledBySwitch = calledBySwitch;
         m_requestedTurns = turns;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires (Robot.acquisition);
         System.out.println("AcquisitionOverride constructor called with turns=" + turns);
     }
-
     // Called just before this Command runs the first time
     protected void initialize() {
-        // If we start out in contact with the switch, then we're not "armed"
+         // If we start out in contact with the switch, then we're not "armed"
         // (for switch sensing), until we get out of contact
         m_armed = !RobotMap.acquisitionRotaryLimitSwitch.get();
         m_overshootCycles = 0;
@@ -52,15 +53,15 @@ public class AcquisitionScrewControl extends CommandGroup {
         m_direction = 1;
         if (m_requestedTurns < 0) {
             // Safety -- don't go down if a disk it at the bottom
-            if ((Robot.acquisition.m_lowestDisk + m_requestedTurns) >= 0 &&
+            if (Robot.acquisition.m_lowestDisk + m_requestedTurns >= 0 &&
                     // remember bottomAcquisitionSwitch.get() is inverted
-                    // false means a disk is present
+                    // true means a disk is not present
                     RobotMap.bottomAcquisitionSwitch.get()) {
                 m_direction = -1;
             }
             else {
                 // If we've got a disk at the bottom, we don't go down!
-                m_direction = 0;
+                    m_direction = 0;
             }
         }
 
@@ -71,7 +72,6 @@ public class AcquisitionScrewControl extends CommandGroup {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         boolean limit = RobotMap.acquisitionRotaryLimitSwitch.get();
-
         m_outputted = false;
         if (m_direction != 0) {
             if (--m_overshootCycles < 0) {
@@ -97,7 +97,10 @@ public class AcquisitionScrewControl extends CommandGroup {
                         // Once we've
                         Robot.acquisition.acquisitionTurnScrews(0);
                         Robot.acquisition.m_last_direction = m_direction;
-                        Robot.acquisition.m_direction = m_direction = 0;
+                        m_direction = 0;
+                        Robot.acquisition.m_direction = m_direction;
+                        m_outputted = false;
+                        outputTurnInfo(limit);
                         System.out.println("************** Finished a full turn ****************");
                         return;
                     }
@@ -118,7 +121,7 @@ public class AcquisitionScrewControl extends CommandGroup {
             }
             // Since the switch is not contacted, we have not completed
             // the current turn, so keep going.
-            Robot.acquisition.acquisitionTurnScrews(m_direction * Robot.acquisition.ACQUISITIONSPEED);
+            Robot.acquisition.acquisitionTurnScrews(m_direction *Robot.acquisition.ACQUISITIONSPEED);
             // increment the number of cycles
 
             if (--m_count == 0) {
@@ -135,7 +138,8 @@ public class AcquisitionScrewControl extends CommandGroup {
             System.out.println("Limit: " + (limit?"true":"false") + " | Armed: " + 
                 (m_armed?"true":"false") + " | m_numCycles: " +
                 m_numCycles + " | overshootCycles: " + m_overshootCycles +
-                    " | direc: " + m_direction);
+                    " | direc: " + m_direction + 
+                    " | m_turns: " + m_turns);
             m_outputted = true;
         }
     }
@@ -143,19 +147,32 @@ public class AcquisitionScrewControl extends CommandGroup {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        boolean finished=false;
+        if(m_calledBySwitch == false) {
+            finished = m_direction==0 || (m_turns == m_requestedTurns && m_overshootCycles <= 0);
+        }
+        else if(m_calledBySwitch == true) {
+            finished = Robot.acquisition.m_direction==0 ||(m_turns == m_requestedTurns && m_overshootCycles <= 0);
+        }
         // It is finished it we have completed the right number of turns.
         // So the switch must be contacted and m_turns must be equal to the
         // requested number. I made it >= just in case.
-        return (m_direction==0 || (m_turns == m_requestedTurns && m_overshootCycles <= 0));
+        if (finished) {
+            m_outputted = false;
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@ FINISHED @@@@@@@@@@@@@@@@@@@@@@");
+            outputTurnInfo(RobotMap.acquisitionRotaryLimitSwitch.get()); 
+        }
+        return finished;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-
+        Robot.acquisition.acquisitionTurnScrews(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
 }
