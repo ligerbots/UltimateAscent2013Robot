@@ -87,27 +87,50 @@ public class Shooter extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
+    public void runShooter(boolean enable) {
+        double frontWheel = 0.0, backWheel = 0.0;  
+        if (enable) {
+            frontWheel = -1.0;
+            backWheel = -0.5;
+        }
+        
+        try {
+            RobotMap.shooterFrontWheel.setX(frontWheel);
+            RobotMap.shooterBackWheel.setX(backWheel);
+        } catch (Exception ex) {
+            System.out.println("Shooter motors speed set failed");
+        }
+    }
+        
+    
     public void runShooterAngle(double y) {
         try {
             shooterAngle.setX(y*ANGLESPEEDCONSTANT);
-            if (--m_count==0)
+            /* if (--m_count==0)
             {
-                m_count = 10;
-                //Robot.debugOutNumber("Shooter energy", y*ANGLESPEEDCONSTANT);
-                //Robot.debugOutNumber("Elevation angle", currentShooterAngle);
-            }
+               m_count = 10;
+               System.out.println("current Shooter angle" + currentShooterAngle);
+            } */
         } catch (edu.wpi.first.wpilibj.can.CANTimeoutException ex) {
             System.out.println("Timeout Exception on shooterAngle.setX in runShooterAngle");
         }
     }
+    
+    // returns true when we're within two degress of the desired angle
     public boolean moveToAngle(double desiredAngle)
     {
-        double h = .75;
-        if(Robot.shooter.currentShooterAngle<=desiredAngle+1 || Robot.shooter.currentShooterAngle>= desiredAngle-1){
+        double h = 1.0;
+        shooterElevationAngle();
+        if (currentShooterAngle <= desiredAngle-1) {
             Robot.shooter.runShooterAngle(h);
-            return true;
+            return false;
         }
-        return false;
+        else if (currentShooterAngle >= desiredAngle+1) {
+            Robot.shooter.runShooterAngle(-h);
+            return false;
+        }
+        Robot.shooter.runShooterAngle(0.0);
+        return true;
     }
 }
 

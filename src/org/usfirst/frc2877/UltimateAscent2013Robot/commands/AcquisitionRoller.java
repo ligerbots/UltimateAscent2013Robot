@@ -30,21 +30,12 @@ public class AcquisitionRoller extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        m_tristate = (++m_tristate < 3) ? m_tristate : 0;
-        if (m_tristate==0) {
-            m_enable = false;
+        m_enable = !m_enable;
+        RobotMap.acquisitionRoller.set(Relay.Value.kReverse);
+        if (m_enable) {
+            Robot.debugOutBoolean("Acquisition roller", m_enable);
         }
-        else {
-            m_enable = true;
-            Relay.Value direction = m_tristate ==1 ? Relay.Value.kReverse : Relay.Value.kForward;
-            RobotMap.acquisitionRoller.set(direction);
-        }
-       
-        Robot.debugOutBoolean("Acquisition roller", m_enable);
-        Robot.debugOut("Relay direction: ", (m_tristate==1 ? "Reverse" : 
-                                                              m_tristate==0? "Stopped" :"Forward"));
-
-    }
+     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {

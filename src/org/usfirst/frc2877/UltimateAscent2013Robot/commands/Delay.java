@@ -4,30 +4,31 @@
  */
 package org.usfirst.frc2877.UltimateAscent2013Robot.commands;
 
+/**
+ *
+ * @author Administrator
+ */
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
-import org.usfirst.frc2877.UltimateAscent2013Robot.RobotMap;
 
 /**
  *
- * @author fitzpaj
+ * @author Jeff
  */
-public class ShooterEnable extends Command {
-
-    int m_count = 10;
-
-    public ShooterEnable() {
+public class Delay extends Command {
+    
+    public Delay(double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(Robot.shooter);
-
+        setTimeout(timeout);
+        
     }
 
     // Called just before this Command runs the first time
-    public void initialize() {
-        Robot.m_shooter_enable = !Robot.m_shooter_enable;
-        Robot.debugOutBoolean("Shooter enable", Robot.m_shooter_enable);
-        Robot.shooter.runShooter(Robot.m_shooter_enable);
+    protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,8 +37,7 @@ public class ShooterEnable extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        // finishes immediately
-        return true;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
@@ -47,6 +47,5 @@ public class ShooterEnable extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        end();
     }
 }

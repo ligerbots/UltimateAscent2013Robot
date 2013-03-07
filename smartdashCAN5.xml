@@ -54,7 +54,7 @@
 		<location x="960" y="44"/>
 		<width>100</width>
 		<property name="Foreground" value="0.0.204.255"/>
-		<property name="Maximum" value="20.0"/>
+		<property name="Maximum" value="5.0"/>
 	</widget>
 	<widget field="3" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="1066" y="48"/>
@@ -70,7 +70,7 @@
 		<location x="960" y="70"/>
 		<width>100</width>
 		<property name="Foreground" value="0.0.204.255"/>
-		<property name="Maximum" value="20.0"/>
+		<property name="Maximum" value="5.0"/>
 	</widget>
 	<widget field="2" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="1066" y="76"/>
@@ -86,7 +86,7 @@
 		<location x="960" y="100"/>
 		<width>100</width>
 		<property name="Foreground" value="0.0.204.255"/>
-		<property name="Maximum" value="20.0"/>
+		<property name="Maximum" value="5.0"/>
 	</widget>
 	<widget field="5" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="1066" y="106"/>
@@ -102,7 +102,7 @@
 		<location x="960" y="130"/>
 		<width>100</width>
 		<property name="Foreground" value="0.0.204.255"/>
-		<property name="Maximum" value="20.0"/>
+		<property name="Maximum" value="5.0"/>
 	</widget>
 	<widget field="9" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="1066" y="136"/>
@@ -118,7 +118,7 @@
 		<location x="960" y="170"/>
 		<width>100</width>
 		<property name="Foreground" value="0.0.204.255"/>
-		<property name="Maximum" value="20.0"/>
+		<property name="Maximum" value="5.0"/>
 	</widget>
 	<widget field="4" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="1066" y="176"/>
@@ -134,7 +134,7 @@
 		<location x="960" y="200"/>
 		<width>100</width>
 		<property name="Foreground" value="0.0.204.255"/>
-		<property name="Maximum" value="20.0"/>
+		<property name="Maximum" value="5.0"/>
 	</widget>
 	<widget field="6" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="1066" y="206"/>
@@ -150,7 +150,7 @@
 		<location x="960" y="230"/>
 		<width>100</width>
 		<property name="Foreground" value="0.0.204.255"/>
-		<property name="Maximum" value="20.0"/>
+		<property name="Maximum" value="5.0"/>
 	</widget>
 	<widget field="7" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="1066" y="236"/>
@@ -166,7 +166,7 @@
 		<location x="960" y="260"/>
 		<width>100</width>
 		<property name="Foreground" value="0.0.204.255"/>
-		<property name="Maximum" value="20.0"/>
+		<property name="Maximum" value="5.0"/>
 	</widget>
 	<widget field="8" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="1066" y="266"/>
