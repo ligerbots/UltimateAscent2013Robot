@@ -42,8 +42,8 @@ public class  AutonomousCommand extends CommandGroup {
     protected void execute() {
         Robot.m_shooter_enable = true;
         Robot.oi.shootnow.initialize();
-        Robot.shooter.moveToAngle(45);
-        if(Robot.m_total_ticks/50>=6){
+        Robot.shooter.moveToAngle(23);
+        if(Robot.m_total_ticks/50>=6) {
             addSequential(Robot.oi.screwupOne);
             addSequential(Robot.oi.screwupOne);
             addSequential(Robot.oi.screwupOne);
