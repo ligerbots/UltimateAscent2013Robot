@@ -17,7 +17,9 @@ public class AutonomousGoToAngle extends Command {
         boolean m_finished;
 
         public AutonomousGoToAngle(int movetoangle) 
-        {
+        {        
+            // not the right place to put this, but..
+            Robot.shooter.runShooter(true);
             m_movetoangle = movetoangle;
          }
         
