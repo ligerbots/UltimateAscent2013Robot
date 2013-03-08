@@ -90,7 +90,7 @@ public class Acquisition extends Subsystem {
             // The top switch only registers if we weren't just lifting
             if (topSwitch) {
                 // Is there a disk at the bottom position?
-                System.out.println("======= Top switch hit =======");
+              //  System.out.println("======= Top switch hit =======");
                 if (false && !diskPositions[0]) {
                     System.out.println("======= LOWERING =======");
                     m_direction = -1;

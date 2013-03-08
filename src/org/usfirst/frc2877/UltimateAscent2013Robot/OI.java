@@ -67,7 +67,7 @@ public class OI {
     public JoystickButton buttonAcquisitionOverrideUp;
     public AcquisitionScrewControl screwDownOne = new AcquisitionScrewControl(-1, false);
     public AcquisitionScrewControl screwupOne = new AcquisitionScrewControl(1, false);
-    public ShooterEnable shootnow = new ShooterEnable();
+    public ShooterEnable shootnow = new ShooterEnable(true);
     public AcquisitionRoller roller = new AcquisitionRoller();
     
     public OI() {

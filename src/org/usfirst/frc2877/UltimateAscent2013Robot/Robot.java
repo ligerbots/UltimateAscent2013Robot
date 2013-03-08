@@ -44,8 +44,8 @@ public class Robot extends IterativeRobot {
     public static boolean m_shooter_enable = false;
     // This constant is used to define how many cycles we need to go to make
     // sure that the cam has cleared the limit switch
-    public static int OVERSHOOT_AMOUNT_UP = 8;
-    public static int OVERSHOOT_AMOUNT_DOWN = 12;
+    public static int OVERSHOOT_AMOUNT_UP = 3;
+    public static int OVERSHOOT_AMOUNT_DOWN = 3;
     
     public static AcquisitionScrewControl autoUpOne;
     public static AcquisitionScrewControl autoDownOne;
@@ -72,9 +72,9 @@ public class Robot extends IterativeRobot {
         // We need to initialize the disk positions
         // This is our presumed automous setup
         Acquisition.diskPositions[4] = false;
-        Acquisition.diskPositions[3] = false;
-        Acquisition.diskPositions[2] = false;
-        Acquisition.diskPositions[1] = false;
+        Acquisition.diskPositions[3] = true;
+        Acquisition.diskPositions[2] = true;
+        Acquisition.diskPositions[1] = true;
         Acquisition.diskPositions[0] = false;
         Acquisition.m_highestDisk = 3;
         Acquisition.m_lowestDisk = 1;

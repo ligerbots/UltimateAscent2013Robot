@@ -31,7 +31,7 @@ public class AcquisitionRoller extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         m_enable = !m_enable;
-        Relay.Value m_direc = m_enable ? Relay.Value.kReverse : Relay.Value.kOff;
+        Relay.Value m_direc = m_enable ? Relay.Value.kForward : Relay.Value.kOff;
         RobotMap.acquisitionRoller.set(m_direc);
         Robot.debugOutBoolean("Acquisition roller", m_enable);
      }

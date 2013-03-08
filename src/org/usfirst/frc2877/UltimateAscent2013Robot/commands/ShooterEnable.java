@@ -13,19 +13,27 @@ import org.usfirst.frc2877.UltimateAscent2013Robot.RobotMap;
  * @author fitzpaj
  */
 public class ShooterEnable extends Command {
-
+    boolean m_initial_enable;
     int m_count = 10;
 
-    public ShooterEnable() {
+    public ShooterEnable(boolean enable) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+        m_initial_enable = enable;
+        
         requires(Robot.shooter);
 
     }
 
     // Called just before this Command runs the first time
     public void initialize() {
-        Robot.m_shooter_enable = !Robot.m_shooter_enable;
+        if (m_initial_enable) {
+            Robot.m_shooter_enable = true;
+            m_initial_enable = false;
+        }
+        else {
+                Robot.m_shooter_enable = !Robot.m_shooter_enable;
+        }
         Robot.debugOutBoolean("Shooter enable", Robot.m_shooter_enable);
         Robot.shooter.runShooter(Robot.m_shooter_enable);
     }
