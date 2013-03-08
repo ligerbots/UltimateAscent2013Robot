@@ -39,7 +39,8 @@ public class  Drive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         double x = Robot.oi.joystick1.getX();
-        double y = Robot.oi.joystick1.getY();
+        // negative here because we were driving backwards
+        double y = -Robot.oi.joystick1.getY();
         
         SmartDashboard.putNumber("Joystick Y", y);
         SmartDashboard.putNumber("Joystick X", x);

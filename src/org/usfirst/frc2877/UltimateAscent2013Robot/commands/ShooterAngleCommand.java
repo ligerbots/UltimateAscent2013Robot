@@ -11,12 +11,12 @@ import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
  *
  * @author fitzpaj
  */
-public class ShooterAngleControl extends Command {
+public class ShooterAngleCommand extends Command {
     
-    public ShooterAngleControl() {
+    public ShooterAngleCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);       
-        requires(Robot.shooter);
+        requires(Robot.shooterAngleControl);
         System.out.println("ShooterAzimuth constructor called");
     }
 
@@ -27,8 +27,9 @@ public class ShooterAngleControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        double y = Robot.oi.joystick2.getY();
-        Robot.shooter.runShooterAngle(y);
+        // negative here because we were raising backwards
+        double y = -Robot.oi.joystick2.getY();
+        Robot.shooterAngleControl.runShooterAngle(y);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,7 +39,7 @@ public class ShooterAngleControl extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Robot.shooter.runShooterAngle(0);
+        Robot.shooterAngleControl.runShooterAngle(0);
     }
 
     // Called when another command which requires one or more of the same

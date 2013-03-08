@@ -28,7 +28,7 @@ public class AutonomousGoToAngle extends Command {
 
         // Called repeatedly when this Command is scheduled to run
         protected void execute() {
-           m_finished = Robot.shooter.moveToAngle(m_movetoangle);
+           m_finished = Robot.shooterAngleControl.moveToAngle(m_movetoangle);
            if (--m_count==0) {
                m_count = 10;
                System.out.println("Autonomous MoveToAngle: " + Robot.m_total_ticks);
