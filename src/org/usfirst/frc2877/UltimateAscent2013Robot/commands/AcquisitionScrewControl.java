@@ -108,7 +108,7 @@ public class AcquisitionScrewControl extends CommandGroup {
             }
             // safety code -- we never run more than a full cycle (presumed to be 48
             // turns), past requested turns, even 
-            if (m_numCycles++ == (24 + 24 * Math.abs(m_requestedTurns))) {
+            if (m_numCycles++ == (24  + 24 * Math.abs(m_requestedTurns))) {
                 outputTurnInfo(limit);
                 Robot.acquisition.acquisitionTurnScrews(0);
                 Robot.acquisition.m_last_direction = m_direction;
