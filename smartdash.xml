@@ -1,0 +1,106 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Lowest disk" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="278" y="245"/>
+		<width>86</width>
+	</widget>
+	<widget field="Highest disk" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="277" y="220"/>
+		<width>87</width>
+	</widget>
+	<widget field="Disk 0" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="278" y="196"/>
+		<width>112</width>
+	</widget>
+	<widget field="Disk 1" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="278" y="173"/>
+		<width>112</width>
+	</widget>
+	<widget field="Disk 2" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="278" y="149"/>
+		<width>112</width>
+	</widget>
+	<widget field="Disk 3" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="278" y="125"/>
+		<width>112</width>
+	</widget>
+	<widget field="Joystick X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="432" y="231"/>
+	</widget>
+	<widget field="Joystick Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="432" y="255"/>
+	</widget>
+	<widget field="Shooter angle volts" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="6" y="281"/>
+	</widget>
+	<widget field="Shooter angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="32" y="257"/>
+	</widget>
+	<widget field="Acquisition screw" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="21" y="136"/>
+	</widget>
+	<widget field="Right Back Current" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="9" y="232"/>
+		<height>20</height>
+	</widget>
+	<widget field="Right Front Current" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="4" y="209"/>
+	</widget>
+	<widget field="Left Back Current" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="14" y="186"/>
+	</widget>
+	<widget field="Left Front Current" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="10" y="164"/>
+	</widget>
+	<widget field="Shooter enable" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="241" y="34"/>
+	</widget>
+	<widget field="Left Front" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="247" y="51"/>
+		<width>78</width>
+		<property name="Maximum" value="15.0"/>
+	</widget>
+	<widget field="Ticks" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="242" y="6"/>
+	</widget>
+	<widget field="Left Back" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="247" y="87"/>
+		<width>78</width>
+		<property name="Maximum" value="15.0"/>
+	</widget>
+	<widget field="Rotary Limit Switch: " type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="5" y="111"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.camera.WPICameraExtension">
+		<location x="433" y="3"/>
+		<width>258</width>
+		<height>242</height>
+	</static-widget>
+	<widget field="Shooter Tilt" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="47" y="87"/>
+	</widget>
+	<widget field="Right Back" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="334" y="84"/>
+		<width>71</width>
+		<property name="Maximum" value="15.0"/>
+	</widget>
+	<widget field="Right Front" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="334" y="51"/>
+		<width>70</width>
+		<property name="Maximum" value="15.0"/>
+	</widget>
+	<widget field="Shooter Front Wheel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="5" y="64"/>
+	</widget>
+	<widget field="Shooter Back Wheel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="11" y="39"/>
+		<height>21</height>
+	</widget>
+	<widget field="Autonomous Command" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="3" y="4"/>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+	<hidden field="Level of Highest Frisbee: "/>
+</xml>

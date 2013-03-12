@@ -12,6 +12,7 @@
 package org.usfirst.frc2877.UltimateAscent2013Robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
 
 /**
@@ -38,10 +39,15 @@ public class  Drive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         double x = Robot.oi.joystick1.getX();
+        // negative here because we were driving backwards
         double y = Robot.oi.joystick1.getY();
         
+        SmartDashboard.putNumber("Joystick Y", y);
+        SmartDashboard.putNumber("Joystick X", x);
         mecanumOn = Robot.oi.buttonMecanum.get();
+        
         //System.out.println("mecanumOn = " + mecanumOn);
+        //Robot.driveTrain.hidDrive(Robot.oi.joystick1, mecanumOn);
         Robot.driveTrain.drive(x, y, mecanumOn); 
     }
 

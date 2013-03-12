@@ -1,0 +1,225 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Disk 4" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="10" y="28"/>
+		<width>112</width>
+	</widget>
+	<widget field="Acquisition Roller" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="457"/>
+	</widget>
+	<widget field="Relay direction: " type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="436"/>
+	</widget>
+	<widget field="Acquisition roller" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="874" y="439"/>
+	</widget>
+	<widget field="Shooter compass" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.SimpleDial">
+		<location x="2" y="206"/>
+		<width>195</width>
+		<height>125</height>
+		<property name="Upper Limit" value="120.0"/>
+	</widget>
+	<widget field="Shooter angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="36" y="342"/>
+	</widget>
+	<widget field="Ticks" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="1003" y="473"/>
+		<width>77</width>
+	</widget>
+	<widget field="Shooter enable" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="863" y="467"/>
+		<width>96</width>
+		<height>30</height>
+	</widget>
+	<widget field="OVERSHOOT_AMOUNT_UP" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="922" y="326"/>
+		<width>157</width>
+	</widget>
+	<widget field="OVERSHOOT_AMOUNT_DOWN" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="902" y="302"/>
+		<width>176</width>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="876" y="24"/>
+		<width>161</width>
+		<property name="Text" value="CAN Jaguars"/>
+	</static-widget>
+	<widget field="V:Left Front" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="854" y="45"/>
+		<width>100</width>
+		<property name="Maximum" value="13.0"/>
+		<property name="Minimum" value="-13.0"/>
+	</widget>
+	<widget field="A:Left Front" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="960" y="44"/>
+		<width>100</width>
+		<property name="Foreground" value="0.0.204.255"/>
+		<property name="Maximum" value="5.0"/>
+	</widget>
+	<widget field="3" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="1066" y="48"/>
+		<height>22</height>
+	</widget>
+	<widget field="V:Left Back" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="854" y="70"/>
+		<width>100</width>
+		<property name="Maximum" value="13.0"/>
+		<property name="Minimum" value="-13.0"/>
+	</widget>
+	<widget field="A:Left Back" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="960" y="70"/>
+		<width>100</width>
+		<property name="Foreground" value="0.0.204.255"/>
+		<property name="Maximum" value="5.0"/>
+	</widget>
+	<widget field="2" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="1066" y="76"/>
+		<height>22</height>
+	</widget>
+	<widget field="V:Right Front" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="854" y="100"/>
+		<width>100</width>
+		<property name="Maximum" value="13.0"/>
+		<property name="Minimum" value="-13.0"/>
+	</widget>
+	<widget field="A:Right Front" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="960" y="100"/>
+		<width>100</width>
+		<property name="Foreground" value="0.0.204.255"/>
+		<property name="Maximum" value="5.0"/>
+	</widget>
+	<widget field="5" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="1066" y="106"/>
+		<height>22</height>
+	</widget>
+	<widget field="V:Right Back" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="854" y="130"/>
+		<width>100</width>
+		<property name="Maximum" value="13.0"/>
+		<property name="Minimum" value="-13.0"/>
+	</widget>
+	<widget field="A:Right Back" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="960" y="130"/>
+		<width>100</width>
+		<property name="Foreground" value="0.0.204.255"/>
+		<property name="Maximum" value="5.0"/>
+	</widget>
+	<widget field="9" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="1066" y="136"/>
+		<height>22</height>
+	</widget>
+	<widget field="V:Shooter Tilt" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="854" y="170"/>
+		<width>100</width>
+		<property name="Maximum" value="13.0"/>
+		<property name="Minimum" value="-13.0"/>
+	</widget>
+	<widget field="A:Shooter Tilt" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="960" y="170"/>
+		<width>100</width>
+		<property name="Foreground" value="0.0.204.255"/>
+		<property name="Maximum" value="5.0"/>
+	</widget>
+	<widget field="4" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="1066" y="176"/>
+		<height>22</height>
+	</widget>
+	<widget field="V:Shooter Back Wheel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="854" y="200"/>
+		<width>100</width>
+		<property name="Maximum" value="13.0"/>
+		<property name="Minimum" value="-13.0"/>
+	</widget>
+	<widget field="A:Shooter Back Wheel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="960" y="200"/>
+		<width>100</width>
+		<property name="Foreground" value="0.0.204.255"/>
+		<property name="Maximum" value="5.0"/>
+	</widget>
+	<widget field="6" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="1066" y="206"/>
+		<height>22</height>
+	</widget>
+	<widget field="V:Shooter Front Wheel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="854" y="230"/>
+		<width>100</width>
+		<property name="Maximum" value="13.0"/>
+		<property name="Minimum" value="-13.0"/>
+	</widget>
+	<widget field="A:Shooter Front Wheel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="960" y="230"/>
+		<width>100</width>
+		<property name="Foreground" value="0.0.204.255"/>
+		<property name="Maximum" value="5.0"/>
+	</widget>
+	<widget field="7" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="1066" y="236"/>
+		<height>22</height>
+	</widget>
+	<widget field="V:Elevator Coils" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="854" y="260"/>
+		<width>100</width>
+		<property name="Maximum" value="13.0"/>
+		<property name="Minimum" value="-13.0"/>
+	</widget>
+	<widget field="A:Elevator Coils" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
+		<location x="960" y="260"/>
+		<width>100</width>
+		<property name="Foreground" value="0.0.204.255"/>
+		<property name="Maximum" value="5.0"/>
+	</widget>
+	<widget field="8" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="1066" y="266"/>
+		<height>22</height>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="208" y="27"/>
+		<width>640</width>
+		<height>480</height>
+		<property name="Image File" value="C:\Users\Administrator\Documents\crosshairs5.png"/>
+	</static-widget>
+	<widget field="Lowest disk" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="33" y="162"/>
+		<width>86</width>
+	</widget>
+	<widget field="Highest disk" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="33" y="136"/>
+		<width>87</width>
+	</widget>
+	<widget field="Disk 0" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="10" y="116"/>
+		<width>112</width>
+	</widget>
+	<widget field="Disk 1" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="10" y="93"/>
+		<width>112</width>
+	</widget>
+	<widget field="Disk 2" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="11" y="71"/>
+		<width>112</width>
+	</widget>
+	<widget field="Disk 3" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="10" y="49"/>
+		<width>112</width>
+	</widget>
+	<widget field="Joystick X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="57" y="389"/>
+	</widget>
+	<widget field="Joystick Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="60" y="415"/>
+	</widget>
+	<widget field="Shooter angle volts" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="10" y="365"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.camera.WPICameraExtension">
+		<location x="204" y="24"/>
+		<width>640</width>
+		<height>480</height>
+	</static-widget>
+	<widget field="Autonomous Command" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="2" y="1"/>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>

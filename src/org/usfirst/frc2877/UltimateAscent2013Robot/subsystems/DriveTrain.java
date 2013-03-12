@@ -50,6 +50,17 @@ public class DriveTrain extends Subsystem {
         System.out.println("driveTrain.initDefaultCommand called.");
   }
     
+    public void hidDrive (GenericHID joystick, boolean mecanumOn) {
+        if (robotDrive41!=null)
+        {
+            if (mecanumOn == true) {
+                robotDrive41.mecanumDrive_Cartesian(joystick.getX(), joystick.getY(), 0, 0);
+            } else {
+                robotDrive41.arcadeDrive(joystick);
+            }
+        }
+    }
+    
     public void drive ( double x, double y, boolean mecanumOn ) {
 
         if (robotDrive41!=null)
