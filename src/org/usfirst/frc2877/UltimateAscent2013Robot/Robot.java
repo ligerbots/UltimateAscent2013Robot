@@ -43,6 +43,7 @@ public class Robot extends IterativeRobot {
     private ShooterAngleCommand shooterAngleCommand;
     public static int m_total_ticks = 0;
     public static boolean m_shooter_enable = false;
+    
     // This constant is used to define how many cycles we need to go to make
     // sure that the cam has cleared the limit switch
     public static int OVERSHOOT_AMOUNT_UP = 3;
@@ -118,6 +119,8 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) { autonomousCommand.cancel(); }
         // start the drive command.  This will remain active during teleop
         drive.start();
+        ShooterEnable shooterEnable = new ShooterEnable(true);
+        shooterEnable.start();
         // create and start the shooterElevationControl command 
         shooterAngleCommand.start();
 
@@ -191,6 +194,8 @@ public class Robot extends IterativeRobot {
 
             SmartDashboard.putNumber("OVERSHOOT_AMOUNT_UP", OVERSHOOT_AMOUNT_UP);
             SmartDashboard.putNumber("OVERSHOOT_AMOUNT_DOWN", OVERSHOOT_AMOUNT_DOWN);
+            SmartDashboard.getBoolean("Top switch", RobotMap.topAcquisitionSwitch.get());
+            SmartDashboard.getBoolean("Bottom switch", RobotMap.bottomAcquisitionSwitch.get());
             
             SmartDashboard.putBoolean("Acquisition Roller", 
                     RobotMap.acquisitionRoller.get()==Relay.Value.kOn ? true : false);

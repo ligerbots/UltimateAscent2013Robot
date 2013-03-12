@@ -67,7 +67,6 @@ public class OI {
     public JoystickButton buttonAcquisitionOverrideUp;
     public AcquisitionScrewControl screwDownOne = new AcquisitionScrewControl(-1, false);
     public AcquisitionScrewControl screwupOne = new AcquisitionScrewControl(1, false);
-    public ShooterEnable shootnow = new ShooterEnable(true);
     public AcquisitionRoller roller = new AcquisitionRoller();
     
     public OI() {
@@ -99,7 +98,7 @@ public class OI {
         overShootDownMinus.whenPressed(new OvershootChange(-1,-1));
         
         buttonShooterEnable = new JoystickButton(joystick1, 6);
-        buttonShooterEnable.whenPressed(shootnow);
+        buttonShooterEnable.whenPressed(new ShootToggle());
         
         buttonAcquisitionRoller = new JoystickButton(joystick1, 5);
         buttonAcquisitionRoller.whenPressed(roller);

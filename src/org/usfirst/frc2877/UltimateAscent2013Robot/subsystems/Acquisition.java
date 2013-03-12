@@ -99,7 +99,7 @@ public class Acquisition extends Subsystem {
                 diskPositions[NUMPOSITIONS - 2] = true;
             }
             // Do we have a new disk?
-          /*  if (!bottomSwitch) {
+          if (!bottomSwitch) {
                 // Is there a disk in the top position?
                 System.out.println("======= Bottom switch hit =======");
                 if (!diskPositions[NUMPOSITIONS - 1]) {
@@ -108,7 +108,7 @@ public class Acquisition extends Subsystem {
                 }
                 // note that a disk just loaded
                 diskPositions[0] = true;
-            }*/
+            }
         }
        // System.out.println("############ at the ned of refresh values m_dirction in: " + m_direction + " ############");
         return m_direction;
@@ -151,7 +151,6 @@ public class Acquisition extends Subsystem {
         m_numDisks = count;
         return count;
    }
-        
     public void acquisitionTurnScrews(double run)
     {
             try {
