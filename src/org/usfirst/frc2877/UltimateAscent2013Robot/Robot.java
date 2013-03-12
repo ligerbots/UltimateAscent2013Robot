@@ -46,8 +46,8 @@ public class Robot extends IterativeRobot {
     
     // This constant is used to define how many cycles we need to go to make
     // sure that the cam has cleared the limit switch
-    public static int OVERSHOOT_AMOUNT_UP = 3;
-    public static int OVERSHOOT_AMOUNT_DOWN = 3;
+    public static int OVERSHOOT_AMOUNT_UP =4;
+    public static int OVERSHOOT_AMOUNT_DOWN = 2;
     
     public static AcquisitionScrewControl autoUpOne;
     public static AcquisitionScrewControl autoDownOne;

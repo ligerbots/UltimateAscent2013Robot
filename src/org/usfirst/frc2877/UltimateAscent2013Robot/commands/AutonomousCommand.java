@@ -39,13 +39,12 @@ public class  AutonomousCommand extends CommandGroup {
        // addParallel(new AutonomousGoToAngle(MOVETOANGLE));
         addSequential(new Delay(DELAY_SECONDS));
         addSequential(new AcquisitionScrewControl(1, false));
-        addSequential(new Delay(0.4));
-        addSequential(new AcquisitionScrewControl(1, false));
-        addSequential(new Delay(0.5));
-        addSequential(new AcquisitionScrewControl(1, false));
         addSequential(new Delay(1.0));
         addSequential(new AcquisitionScrewControl(1, false));
-        addSequential(new Delay(1.0));
+        addSequential(new Delay(1.2));
+        addSequential(new AcquisitionScrewControl(1, false));
+        addSequential(new Delay(1.2));
+        addSequential(new AcquisitionScrewControl(1, false));
         addSequential(new AcquisitionScrewControl(1, false));
     }
 }
