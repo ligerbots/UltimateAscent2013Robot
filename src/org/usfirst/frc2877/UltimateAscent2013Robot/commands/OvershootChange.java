@@ -5,7 +5,10 @@
 package org.usfirst.frc2877.UltimateAscent2013Robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2877.UltimateAscent2013Robot.Robot;
-import org.usfirst.frc2877.UltimateAscent2013Robot.RobotMap;
+import java.io.DataOutputStream;
+import com.sun.squawk.microedition.io.FileConnection;
+import java.io.DataInputStream;
+import javax.microedition.io.Connector;
 
 /**
  *
@@ -28,6 +31,25 @@ public class OvershootChange extends Command {
             else {
                Robot.OVERSHOOT_AMOUNT_DOWN += m_value;  
             }
+            try {
+                // Persist our overshoot numbers to a file
+                DataOutputStream file;
+                FileConnection fc;
+                fc = (FileConnection)Connector.open(Robot.OVERSHOOT_FILE, Connector.WRITE);
+                System.out.println("Saving " + Robot.OVERSHOOT_FILE);
+                fc.create();
+                file = fc.openDataOutputStream();
+                file.writeInt(Robot.OVERSHOOT_AMOUNT_UP);
+                System.out.println(Robot.OVERSHOOT_AMOUNT_UP);
+                file.writeInt(Robot.OVERSHOOT_AMOUNT_DOWN);
+                System.out.println(Robot.OVERSHOOT_AMOUNT_DOWN);
+                file.flush();
+                file.close();
+                fc.close();
+            }
+            catch (Exception ex) {
+                System.out.println("File output error: " + ex.getMessage());
+            }
         }
 
         // Called repeatedly when this Command is scheduled to run
@@ -49,5 +71,6 @@ public class OvershootChange extends Command {
         protected void interrupted() {
             end();
         }
+        
     }
 

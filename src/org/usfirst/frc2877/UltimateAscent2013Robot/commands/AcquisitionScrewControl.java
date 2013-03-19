@@ -54,9 +54,7 @@ public class AcquisitionScrewControl extends CommandGroup {
         if (m_requestedTurns < 0) {
             // Safety -- don't go down if a disk it at the bottom
             if (Robot.acquisition.m_lowestDisk + m_requestedTurns >= 0 &&
-                    // remember bottomAcquisitionSwitch.get() is inverted
-                    // true means a disk is not present
-                    RobotMap.bottomAcquisitionSwitch.get()) {
+                   !RobotMap.bottomAcquisitionSwitch.get()) {
                 m_direction = -1;
             }
             else {

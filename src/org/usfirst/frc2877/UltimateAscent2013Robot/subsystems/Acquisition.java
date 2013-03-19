@@ -99,7 +99,7 @@ public class Acquisition extends Subsystem {
                 diskPositions[NUMPOSITIONS - 2] = true;
             }
             // Do we have a new disk?
-          if (!bottomSwitch) {
+          if (bottomSwitch) {
                 // Is there a disk in the top position?
                 System.out.println("======= Bottom switch hit =======");
                 if (!diskPositions[NUMPOSITIONS - 1]) {
