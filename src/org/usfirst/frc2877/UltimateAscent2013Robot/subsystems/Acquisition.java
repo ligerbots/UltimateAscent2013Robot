@@ -91,18 +91,20 @@ public class Acquisition extends Subsystem {
             if (topSwitch) {
                 // Is there a disk at the bottom position?
               //  System.out.println("======= Top switch hit =======");
+                System.out.println("^^^^^^^ TOP SWITCH CONTACTED ^^^^^^^^");
                 if (false && !diskPositions[0]) {
                     System.out.println("======= LOWERING =======");
                     m_direction = -1;
                 }
-                // note that a disk just loaded
+                // note that a disk just loaded (or was raised)
                 diskPositions[NUMPOSITIONS - 2] = true;
             }
             // Do we have a new disk?
           if (bottomSwitch) {
                 // Is there a disk in the top position?
                 System.out.println("======= Bottom switch hit =======");
-                if (!diskPositions[NUMPOSITIONS - 1]) {
+                // now that we have an extra position, we always lift.
+                /* if (!diskPositions[NUMPOSITIONS - 1])  */ {
                     System.out.println("======= LIFTING =======");
                     m_direction = 1;
                 }
