@@ -25,13 +25,13 @@ public class ShootToggle extends Command {
 
     // Called just before this Command runs the first time
     public void initialize() {
-        Robot.debugOutBoolean("Shooter toggle", Robot.m_shooter_enable);
+        //Robot.debugOutBoolean("Shooter toggle", Robot.m_shooter_enable);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         Robot.m_shooter_enable = !Robot.m_shooter_enable;
-        Robot.debugOutBoolean("Shooter toggle", Robot.m_shooter_enable);
+        //Robot.debugOutBoolean("Shooter toggle", Robot.m_shooter_enable);
         Robot.shooter.runShooter(Robot.m_shooter_enable);
     }
 

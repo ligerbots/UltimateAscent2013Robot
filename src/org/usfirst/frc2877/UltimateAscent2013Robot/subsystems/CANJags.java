@@ -31,9 +31,10 @@ public class CANJags {
         // remember, CAN IDs start at 2. Array will actually be 10 long,
         // so 9 is our highest index
         for(int i=2; i!=jags.length; i++) {
-          SmartDashboard.putBoolean(Integer.toString(i), jags[i].getStat());
-          SmartDashboard.putNumber("V:"+ jags[i].getDescr(), jags[i].getVoltage());
-          SmartDashboard.putNumber("A:"+ jags[i].getDescr(), jags[i].getCurrent());
+          CANJag j = jags[i];
+          SmartDashboard.putBoolean(Integer.toString(i), j.getStat());
+          SmartDashboard.putNumber("V:"+ j.getDescr(), j.getVoltage());
+          SmartDashboard.putNumber("A:"+ j.getDescr(), j.getCurrent());
         }
     }
     

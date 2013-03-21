@@ -31,14 +31,14 @@ public class ShooterEnable extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         Robot.m_shooter_enable = m_initial_enable;
-        Robot.debugOutBoolean("Shooter enable", Robot.m_shooter_enable);
+        //Robot.debugOutBoolean("Shooter enable", Robot.m_shooter_enable);
         Robot.shooter.runShooter(Robot.m_shooter_enable);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         // finishes immediately
-        Robot.debugOut("Shooter Enable ", "Finished");
+        //Robot.debugOut("Shooter enable ", "Finished");
         return true;
     }
 

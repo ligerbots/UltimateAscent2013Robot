@@ -58,7 +58,7 @@ public class CANJag {
     
     public double getCurrent() {            
         try {
-            m_voltage = m_jag.getOutputCurrent();
+            m_current = m_jag.getOutputCurrent();
         } catch  (CANTimeoutException ex) {
             m_lasterror = ex.getMessage();
             System.out.println(m_lasterror + " " + m_description);
@@ -66,7 +66,7 @@ public class CANJag {
             return 0.0;
         }
         m_status = true;
-        return m_voltage;
+        return m_current;
     }
     
     public boolean getStat() {

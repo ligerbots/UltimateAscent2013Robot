@@ -33,7 +33,7 @@ public class AcquisitionRoller extends Command {
         m_enable = !m_enable;
         Relay.Value m_direc = m_enable ? Relay.Value.kForward : Relay.Value.kOff;
         RobotMap.acquisitionRoller.set(m_direc);
-        Robot.debugOutBoolean("Acquisition roller", m_enable);
+        //Robot.debugOutBoolean("Acquisition Roller", m_enable);
      }
 
     // Called repeatedly when this Command is scheduled to run

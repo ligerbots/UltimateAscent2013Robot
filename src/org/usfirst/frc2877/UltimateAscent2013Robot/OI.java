@@ -66,7 +66,7 @@ public class OI {
     public JoystickButton buttonAcquisitionOverrideDown;
     public JoystickButton buttonAcquisitionOverrideUp;
     public AcquisitionScrewControl screwDownOne = new AcquisitionScrewControl(-1, false);
-    public AcquisitionScrewControl screwupOne = new AcquisitionScrewControl(1, false);
+    public AcquisitionScrewControl screwUpOne = new AcquisitionScrewControl(1, false);
     public AcquisitionRoller roller = new AcquisitionRoller();
     
     public OI() {
@@ -111,7 +111,7 @@ public class OI {
         buttonAcquisitionOverrideDown.whenPressed(screwDownOne);
         // button3 moves the acquisition screw up one turn
         buttonAcquisitionOverrideUp = new JoystickButton(joystick2, 3);
-        buttonAcquisitionOverrideUp.whenPressed(screwupOne);
+        buttonAcquisitionOverrideUp.whenPressed(screwUpOne);
         // button6 moves the shooter angle to preset height for feeder station
 
     }

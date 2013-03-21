@@ -82,8 +82,8 @@ public class Acquisition extends Subsystem {
         // Therefore, when the switch is tripped it reads FALSE
         // We invert the sense so bottomSwitch = true or topSwitch=true
         // means a disk is present
-        bottomSwitch = RobotMap.bottomAcquisitionSwitch.get();
-        topSwitch =  RobotMap.topAcquisitionSwitch.get();
+        bottomSwitch = !RobotMap.bottomAcquisitionSwitch.get();
+        topSwitch =  !RobotMap.topAcquisitionSwitch.get();
         // We only act on a transition of the acquisition sensors if we're not 
         // in the process of raising or lower a disk
         if (m_direction == 0) {
@@ -91,7 +91,7 @@ public class Acquisition extends Subsystem {
             if (topSwitch) {
                 // Is there a disk at the bottom position?
               //  System.out.println("======= Top switch hit =======");
-                System.out.println("^^^^^^^ TOP SWITCH CONTACTED ^^^^^^^^");
+                //System.out.println("^^^^^^^ TOP SWITCH CONTACTED ^^^^^^^^");
                 if (false && !diskPositions[0]) {
                     System.out.println("======= LOWERING =======");
                     m_direction = -1;
@@ -112,6 +112,7 @@ public class Acquisition extends Subsystem {
                 diskPositions[0] = true;
             }
         }
+            
        // System.out.println("############ at the ned of refresh values m_dirction in: " + m_direction + " ############");
         return m_direction;
     }

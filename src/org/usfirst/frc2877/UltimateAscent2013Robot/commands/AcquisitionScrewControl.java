@@ -50,11 +50,13 @@ public class AcquisitionScrewControl extends CommandGroup {
         m_overshootCycles = 0;
         // if M-requested turns is less than zero, then we have to move the
         // screws down, so make the speed negative.
+        Robot.m_lift_emergency_stop = false;
         m_direction = 1;
         if (m_requestedTurns < 0) {
             // Safety -- don't go down if a disk it at the bottom
             if (Robot.acquisition.m_lowestDisk + m_requestedTurns >= 0 &&
-                   !RobotMap.bottomAcquisitionSwitch.get()) {
+                    // switch is normally false
+                    RobotMap.bottomAcquisitionSwitch.get()) {
                 m_direction = -1;
             }
             else {

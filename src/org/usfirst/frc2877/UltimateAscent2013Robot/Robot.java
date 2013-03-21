@@ -55,6 +55,9 @@ public class Robot extends IterativeRobot {
     
     public static AcquisitionScrewControl autoUpOne;
     public static AcquisitionScrewControl autoDownOne;
+    public static boolean m_lift_emergency_stop = false;
+
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -128,7 +131,8 @@ public class Robot extends IterativeRobot {
         shooterEnable.start();
         // create and start the shooterElevationControl command 
         shooterAngleCommand.start();
-
+        // The initialize method of the acquisition roller will toggle it on
+        oi.roller.start();
     }
 
     /**
@@ -175,15 +179,32 @@ public class Robot extends IterativeRobot {
     public static int m_count = TICKS_PER_SECOND/FREQUENCY;
     public static void updateDashboard()
     {
+         
         if (--m_count==0)
         {
             m_count = TICKS_PER_SECOND/FREQUENCY;
             SmartDashboard.putNumber("Ticks", m_total_ticks);
 
             RobotMap.jags.UpdateDashboard();
+            double lift_current = RobotMap.jags.jags[8].m_current;
+            if (lift_current > 4.0) {
+                try {
+                    RobotMap.jags.jags[8].m_jag.setX(0.0);
+                    acquisition.m_direction = 0;
+                    autoUpOne.m_direction = 0;
+                    autoDownOne.m_direction = 0;
+                    oi.screwDownOne.m_direction = 0;
+                    oi.screwUpOne.m_direction = 0;
+                } catch (Exception ex) {
+                    System.out.println("Lift can't stop: " + ex.getMessage());
+                }
+                System.out.println("LIFT EMERGENCY STOP!!!!!!! - " + lift_current);
+                m_lift_emergency_stop = true;
+            }
               
-            // presume a compass range of 0 to 125, zero is at about 105
-            double compassAngle = 90-(Robot.shooterAngleControl.currentShooterAngle/2);
+            // 
+            double compassAngle = 83-Robot.shooterAngleControl.currentShooterAngle/3;
+            SmartDashboard.putBoolean("LIFT OVERCURRENT", !m_lift_emergency_stop);
             SmartDashboard.putNumber("Shooter compass", compassAngle);
             SmartDashboard.putNumber("Shooter angle", Robot.shooterAngleControl.currentShooterAngle);
             SmartDashboard.putNumber("Shooter angle volts", Robot.shooterAngleControl.shooterElevationVoltage);
@@ -199,15 +220,16 @@ public class Robot extends IterativeRobot {
 
             SmartDashboard.putNumber("OVERSHOOT_AMOUNT_UP", OVERSHOOT_AMOUNT_UP);
             SmartDashboard.putNumber("OVERSHOOT_AMOUNT_DOWN", OVERSHOOT_AMOUNT_DOWN);
-            SmartDashboard.getBoolean("Top switch", RobotMap.topAcquisitionSwitch.get());
-            SmartDashboard.getBoolean("Bottom switch", RobotMap.bottomAcquisitionSwitch.get());
+            SmartDashboard.putBoolean("Top switch", !RobotMap.topAcquisitionSwitch.get());
+            SmartDashboard.putBoolean("Bottom switch", !RobotMap.bottomAcquisitionSwitch.get());
             
-            SmartDashboard.putBoolean("Acquisition Roller", 
-                    RobotMap.acquisitionRoller.get()==Relay.Value.kOn ? true : false);
+            SmartDashboard.putBoolean("Acquisition roller", 
+                    RobotMap.acquisitionRoller.get()==Relay.Value.kForward ? true : false);
             
             SmartDashboard.putBoolean("Shooter enable", m_shooter_enable);
-
-         }
+                
+        }
+  
         
     }
     
