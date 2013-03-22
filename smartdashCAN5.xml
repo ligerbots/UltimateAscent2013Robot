@@ -1,5 +1,11 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Acquisition Roller" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="184"/>
+	</widget>
+	<widget field="Shooter init" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="0"/>
+	</widget>
 	<widget field="Bottom switch" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="644" y="0"/>
 	</widget>
@@ -18,21 +24,9 @@
 		<location x="208" y="27"/>
 		<property name="Image File" value="C:\Ligerbots\Software\UltimateAscent2013Robot\V-sight-pink.png"/>
 	</static-widget>
-	<widget field="Shooter init" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="478"/>
-	</widget>
-	<widget field="Encoder position: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="184"/>
-	</widget>
 	<widget field="Disk 4" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="10" y="28"/>
 		<width>112</width>
-	</widget>
-	<widget field="Acquisition Roller" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="457"/>
-	</widget>
-	<widget field="Relay direction: " type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="436"/>
 	</widget>
 	<widget field="Acquisition roller" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="862" y="437"/>
@@ -44,6 +38,7 @@
 		<width>195</width>
 		<height>125</height>
 		<property name="Upper Limit" value="120.0"/>
+		<property name="Tick Interval" value="12.0"/>
 	</widget>
 	<widget field="Shooter angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="36" y="342"/>
@@ -239,6 +234,4 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="Shooter Enable "/>
-	<hidden field="Shooter toggle"/>
 </xml>
