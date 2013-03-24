@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class  AutonomousCommand extends CommandGroup {
-    private final static double DELAY_SECONDS = 4.5;
+    private final static double DELAY_SECONDS = 5.0;
     private final static int MOVETOANGLE = 30;
     int m_count;
 
@@ -39,11 +39,11 @@ public class  AutonomousCommand extends CommandGroup {
        // addParallel(new AutonomousGoToAngle(MOVETOANGLE));
         addSequential(new Delay(DELAY_SECONDS));
         addSequential(new AcquisitionScrewControl(1, false));
-        addSequential(new Delay(.65));
+        addSequential(new Delay(1.55));
         addSequential(new AcquisitionScrewControl(1, false));
-        addSequential(new Delay(1.8));
+        addSequential(new Delay(1.2));
         addSequential(new AcquisitionScrewControl(1, false));
-        addSequential(new Delay(1.8));
+        addSequential(new Delay(1.35));
         addSequential(new AcquisitionScrewControl(1, false));
         addSequential(new AcquisitionScrewControl(1, false));
     }

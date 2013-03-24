@@ -50,7 +50,7 @@ public class Shooter extends Subsystem {
         double frontWheel = 0.0, backWheel = 0.0;  
         if (enable) {
             frontWheel = -1.0;
-            backWheel = -0.5;
+            backWheel = -0.72;
         }
         
         try {

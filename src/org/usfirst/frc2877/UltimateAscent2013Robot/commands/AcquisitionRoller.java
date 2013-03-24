@@ -16,7 +16,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AcquisitionRoller extends Command {
     
-    public static boolean m_enable = false;
+    // m_enable true actually means start with roller off, since
+    // initialize immediately toggles the state
+    public static boolean m_enable = true;
     public static int m_tristate = 0;
     
     public AcquisitionRoller() {
