@@ -23,6 +23,7 @@ public class CANJag {
     public String m_description;
     public String m_lasterror = null;
     public boolean m_status = false;
+    public double m_busvoltage;
     
     public CANJag(int jagnum, String descr) {
         m_description = descr;
@@ -67,6 +68,19 @@ public class CANJag {
         }
         m_status = true;
         return m_current;
+    }
+    
+    public double getBusVoltage()
+    {
+        try {
+            m_busvoltage = m_jag.getBusVoltage();
+        } catch  (CANTimeoutException ex) {
+            m_lasterror = ex.getMessage();
+            System.out.println(m_lasterror + " " + m_description);
+            m_status = false;
+            return 0.0;
+        }
+        return m_busvoltage;
     }
     
     public boolean getStat() {

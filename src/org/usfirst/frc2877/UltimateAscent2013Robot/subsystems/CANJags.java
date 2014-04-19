@@ -35,6 +35,7 @@ public class CANJags {
           SmartDashboard.putBoolean(Integer.toString(i), j.getStat());
           SmartDashboard.putNumber("V:"+ j.getDescr(), j.getVoltage());
           SmartDashboard.putNumber("A:"+ j.getDescr(), j.getCurrent());
+          SmartDashboard.putNumber("B:"+ j.getDescr(), j.getBusVoltage());
         }
     }
     
